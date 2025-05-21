@@ -108,7 +108,7 @@ class ShowTermsPrivacyScreen extends StatelessWidget {
   Widget _buildSectionText(String content) {
     return Text(
       content,
-      style: const TextStyle(fontSize: 16, height: 1.5, color: Colors.black87),
+      style: const TextStyle(fontSize: 16, height: 1.5,),
     );
   }
 }

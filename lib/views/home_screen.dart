@@ -6,7 +6,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(child: Text("Home")),
+      body: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20) ),clipBehavior: Clip.antiAlias,
+        child: const Center(child: Text("Home"))),
     );
   }
 }
