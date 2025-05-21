@@ -1,1 +1,1 @@
-final baseUrl = "https://e-commerce-api-24yv.onrender.com/api/";
+final baseUrl = "https://e-commerce-api-24yv.onrender.com/api";
