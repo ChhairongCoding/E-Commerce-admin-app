@@ -62,7 +62,7 @@ class MainScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 15),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Get.toNamed("/signUp");
+                                    Get.toNamed("/signIn");
                                   },
                                   child: const ListTile(
                                     leading: Icon(Icons.logout),
