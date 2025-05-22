@@ -70,6 +70,8 @@ class RootScreen extends StatelessWidget {
     String? token = tokenService.getToken();
 
 
+
+
     // You can also show a loading spinner here if checking token from async source
     return token.isNotEmpty ? MainScreen() : SignInScreen();
   }
