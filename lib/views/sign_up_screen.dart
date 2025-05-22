@@ -1,4 +1,5 @@
 import 'package:e_commerce_admin_app/controllers/sign_up_controller.dart';
+import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/widgets/custom_textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,38 +11,35 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
+      backgroundColor: const Color(0xFFF7F7F7),
+      body: Center(
+        child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: LayoutBuilder(
               builder: (context, constraints) {
-                if (constraints.maxWidth > 600) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(2, 1),
-                          color: Colors.grey.shade100,
-                          blurRadius: 5,
-                          spreadRadius: 10,
-                        ),
-                      ],
-                    ),
-                    width: size.width * 0.5,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(
-                      left: 150,
-                      right: 150,
-                      top: 20,
-                      bottom: 20,
-                    ),
-                    child: buildMobile(signUpController: signUpController),
-                  );
-                }
-                return buildMobile(signUpController: signUpController);
+                double contentWidth = constraints.maxWidth > 600
+                    ? size.width * 0.5
+                    : double.infinity;
+
+                return Container(
+                  width: contentWidth,
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 2),
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: buildMobile(signUpController: signUpController),
+                );
               },
             ),
           ),
@@ -52,12 +50,13 @@ class SignUpScreen extends StatelessWidget {
 }
 
 class buildMobile extends StatelessWidget {
-  const buildMobile({super.key, required this.signUpController});
-
+  buildMobile({super.key, required this.signUpController});
   final SignUpController signUpController;
+  final ToggleModeController toggleModeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -72,115 +71,189 @@ class buildMobile extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Text(
-          "Please Create Your Account To Get Inside!",
+          "Please create your account to get inside!",
           style: TextStyle(fontSize: 15, height: 1.5),
         ),
-
-        Padding(
-          padding: const EdgeInsets.only(top: 25),
-          child: Form(
-            child: Column(
+        SizedBox(height: 20),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  spacing: 10,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Full Name", style: TextStyle(fontSize: 14)),
-                    CustomTextfieldWidget(hintText: "Full Name"),
-                  ],
-                ),
-                SizedBox(height: 25),
-                SizedBox(
-                  child: Column(
-                    spacing: 10,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Email Address", style: TextStyle(fontSize: 14)),
-                      CustomTextfieldWidget(hintText: "Enter email"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 25),
-                SizedBox(
-                  child: Column(
-                    spacing: 10,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Password", style: TextStyle(fontSize: 14)),
-                      CustomTextfieldWidget(hintText: "Enter Password"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 25),
-                SizedBox(
-                  child: Column(
-                    spacing: 10,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Confirm Password", style: TextStyle(fontSize: 14)),
-                      CustomTextfieldWidget(hintText: "Confirm Password"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Obx(
-                      () => Checkbox(
-                        value: signUpController.isChecked.value,
-                        onChanged: (bool? newValue) {
-                          signUpController.isChecked.value = newValue ?? false;
-                        },
+                Flexible(
+                  child: GestureDetector(
+                    onTap: () {
+                    },
+                    child: Container(
+                      height: size.height * 0.06,
+                      decoration: BoxDecoration(
+                        
+                        border: Border.all(color: toggleModeController.isDarkMode.value ? Colors.white:  Colors.black),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () => Get.toNamed("/showTermsAndPrivacy"),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Read the "),
-                          Text(
-                            "Terms and Privacy",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue,
+                          Image.asset(
+                            "assets/images/icons/phone.png",
+                            height: 45,
+                            width: 45,
+                          ),
+                          SizedBox(width: 20),
+                          Flexible(
+                            child: Text(
+                              "Sign In With Phone",
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 30),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Color(0xff012B43),
-                    minimumSize: Size(double.infinity, 60),
                   ),
-                  child: Text("Sign In", style: TextStyle(color: Colors.white)),
-                  onPressed: () {},
-                ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Have an account!"),
-                    TextButton(
-                      onPressed: () => Get.toNamed("/"),
-                      child: Text(
-                        "Sign In",
-                        style: TextStyle(
-                          color: Colors.blueAccent,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: GestureDetector(
+                    onTap: () {
+                    },
+                    child: Container(
+                      height: size.height * 0.06,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: toggleModeController.isDarkMode.value ? Colors.white:  Colors.black),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/images/icons/google.png",
+                            height: 40,
+                            width: 40,
+                          ),
+                          SizedBox(width: 20),
+                          Flexible(
+                            child: Text(
+                              "Sign In With Google",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              spacing: 10,
+              children: [
+                Expanded(child: Divider(thickness: 1,)),
+                Text( "Or Continue With Email", style: TextStyle(fontSize: 15)),
+                Expanded(child: Divider(thickness: 1,)),
+
+              ],
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
+        Form(
+          child: Column(
+            spacing: 15,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Full Name", style: TextStyle(fontSize: 14)),
+                  SizedBox(height:5),
+                  CustomTextfieldWidget(hintText: "Full Name"),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Email Address", style: TextStyle(fontSize: 14)),
+                  SizedBox(height:5),
+                  CustomTextfieldWidget(hintText: "Enter Email"),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Password", style: TextStyle(fontSize: 14)),
+                  SizedBox(height: 5),
+                  CustomTextfieldWidget(hintText: "Enter Password"),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Confirm Password", style: TextStyle(fontSize: 14)),
+                  SizedBox(height: 5),
+                  CustomTextfieldWidget(hintText: "Confirm Password"),
+                ],
+              ),
+              
+              Row(
+                children: [
+                  Obx(
+                    () => Checkbox(
+                      value: signUpController.isChecked.value,
+                      onChanged: (bool? newValue) {
+                        signUpController.isChecked.value = newValue ?? false;
+                      },
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Get.toNamed("/showTermsAndPrivacy"),
+                    child: Row(
+                      children: [
+                        Text("Read the "),
+                        Text(
+                          "Terms and Privacy",
+                          style: TextStyle(
+                           
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: Color(0xff012B43),
+                  minimumSize: Size(double.infinity, 60),
+                ),
+                child: Text("Sign Up", style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  // Add sign-up logic here
+                },
+              ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Have an account?"),
+                  TextButton(
+                    onPressed: () => Get.toNamed("signIn"),
+                    child: Text(
+                      "Sign In",
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ],
