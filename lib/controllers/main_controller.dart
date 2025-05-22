@@ -1,14 +1,23 @@
+import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
+import 'package:e_commerce_admin_app/views/Product_scrren.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
+import 'package:e_commerce_admin_app/views/sell_screen.dart';
 import 'package:e_commerce_admin_app/views/show_terms_privacy_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainController extends GetxController {
+  final ToggleModeController toggleModeController = Get.put(ToggleModeController());
   var selectedIndex = 0.obs;
   var isCheckingToken = true.obs;
 
-  final List<Widget> listPage = [HomeScreen(), ShowTermsPrivacyScreen()];
+  final List<Widget> listPage = [
+    HomeScreen(),
+    ShowTermsPrivacyScreen(),
+    ProductScrren(),
+    SellScreen(),
+  ];
   TokenService tokenService = TokenService();
 
   @override
@@ -24,13 +33,37 @@ class MainController extends GetxController {
   }
 
   void checkToken() {
-    String? token = tokenService.getToken();
     isCheckingToken.value = false;
-
+    String? token = tokenService.getToken();
     if ((token).isNotEmpty) {
       Get.toNamed("/");
     } else {
       Get.toNamed("/signIn");
     }
+  }
+
+  void signOut() {
+    Get.dialog(
+      AlertDialog(
+        title: Text("Sign Out"),
+        content: Text("Are you sure you want to sign out?"),
+        actions: [
+          TextButton(
+        onPressed: () {
+          Get.back();        },
+        child: Text("Cancel"),
+          ),
+          TextButton(
+        onPressed: () {
+          toggleModeController.isDarkMode.value = false;
+          tokenService.clearToken();
+          Get.offAllNamed('/signIn');
+        
+        },
+        child: Text("Sign Out"),
+          ),
+        ],
+      ),
+    );
   }
 }

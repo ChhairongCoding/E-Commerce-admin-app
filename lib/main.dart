@@ -2,15 +2,16 @@ import 'package:e_commerce_admin_app/controllers/auth_controller.dart';
 import 'package:e_commerce_admin_app/controllers/main_controller.dart';
 import 'package:e_commerce_admin_app/controllers/sign_in_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
+import 'package:e_commerce_admin_app/services/local/token_service.dart';
+import 'package:e_commerce_admin_app/views/Product_scrren.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/main_screen.dart';
+import 'package:e_commerce_admin_app/views/sell_screen.dart';
 import 'package:e_commerce_admin_app/views/show_terms_privacy_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_in_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_up_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 void main() async {
@@ -20,7 +21,7 @@ void main() async {
   Get.put(AuthController());
   Get.put(ToggleModeController());
   Get.put(SignInController());
-  Get.put(ToggleModeController());
+  Get.put(TokenService());
   runApp(MyApp());
 }
 
@@ -32,19 +33,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ToggleModeController toggleModeController = Get.find();
+  final ToggleModeController toggleModeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => GetMaterialApp(
-        title: 'Flutter Demo',
+        title: 'E-commerce Admin App',
         theme: toggleModeController.currentTheme,
-        defaultTransition: Transition.fadeIn,
         initialRoute: "/",
         getPages: [
-          GetPage(name: "/", page: () => MainScreen()),
+          GetPage(name: "/", page: () => RootScreen()),
           GetPage(name: "/home", page: () => HomeScreen()),
+          GetPage(name: "/product", page: () => ProductScrren()),
+          GetPage(name: "/sell", page: () => SellScreen()),
           GetPage(name: "/signIn", page: () => SignInScreen()),
           GetPage(name: "/signUp", page: () => SignUpScreen()),
           GetPage(
@@ -56,5 +58,21 @@ class _MyAppState extends State<MyApp> {
         ],
       ),
     );
+  }
+}
+
+// ✅ This widget decides whether to show MainScreen or SignInScreen
+class RootScreen extends StatelessWidget {
+  final TokenService tokenService = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    String? token = tokenService.getToken();
+
+
+
+
+    // You can also show a loading spinner here if checking token from async source
+    return token.isNotEmpty ? MainScreen() : SignInScreen();
   }
 }
