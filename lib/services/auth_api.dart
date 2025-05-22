@@ -30,6 +30,7 @@ class AuthApi {
       Get.back();
 
       if (res.statusCode == 201) {
+
         tokenService.setToken(jsonDecode(res.body)["token"]);
         Get.snackbar(
           "Sign In",
