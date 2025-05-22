@@ -30,42 +30,47 @@ class MainScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            width: 200, // fixed width for NavigationRail
+                            width: 200,
+                            height: double.infinity,
                             decoration: BoxDecoration(
                               color: toggleModeController.isDarkMode.value
                                   ? const Color(0xff141218)
-                                  : Colors.white,
+                                  : Colors.yellow,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Column(
-                              children: [
-                                ListTile(),
-                                Text("Title"),
-                                Divider(
-                                  color: Colors.grey.shade400,
-                                  thickness: 1.2,
+                            child: NavigationRail(
+                              extended: true,
+                              selectedIndex: controller.selectedIndex.value,
+                              onDestinationSelected: (index) {
+                                controller.changeIndex(index);
+                              },
+                              leading: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text("SlowKey"),
+                              ),
+                              destinations: const [
+                                NavigationRailDestination(
+                                  icon: Icon(Icons.home),
+                                  label: Text("Home"),
                                 ),
-                                Expanded(
-                                  child: NavigationRail(
-                                    extended: true,
-                                    selectedIndex:
-                                        controller.selectedIndex.value,
-                                    onDestinationSelected: (index) {
-                                      controller.changeIndex(index);
-                                    },
-                                    destinations: [
-                                      NavigationRailDestination(
-                                        icon: Icon(Icons.home),
-                                        label: Text("Home"),
-                                      ),
-                                      NavigationRailDestination(
-                                        icon: Icon(Icons.dashboard),
-                                        label: Text("Dashboard"),
-                                      ),
-                                    ],
-                                  ),
+                                NavigationRailDestination(
+                                  icon: Icon(Icons.dashboard),
+                                  label: Text("Dashboard"),
                                 ),
                               ],
+                              trailing: Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed("/signUp");
+                                  },
+                                  child: const ListTile(
+                                    leading: Icon(Icons.logout),
+                                    title: Text("Sign Out"),
+                                  ),
+                                ),
+                              ),
+                              useIndicator: true,
                             ),
                           ),
 

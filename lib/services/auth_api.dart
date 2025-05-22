@@ -18,7 +18,7 @@ class AuthApi {
         headers: {'Content-Type': "application/json", "x-api-key": "my_super_secret_key"},
       );
       if (res.statusCode == 201) {
-
+        Center(child:CircularProgressIndicator(),);
         tokenService.setToken(jsonDecode(res.body)["token"]);
         Get.snackbar(
           "Sign In",
