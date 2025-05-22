@@ -17,54 +17,98 @@ class MainScreen extends StatelessWidget {
           ?  Scaffold(body: Container())
           : Scaffold(
               backgroundColor: toggleModeController.isDarkMode.value
-                  ? Color.fromARGB(255, 31, 31, 31)
-                  : Color(0xffE0E0E0),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 15,
-                        bottom: 15,
-                        left: 15,
+                  ? const Color.fromARGB(255, 31, 31, 31)
+                  : const Color(0xffE0E0E0),
+              body: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 350,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: toggleModeController.isDarkMode.value
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                        color: toggleModeController.isDarkMode.value
+                            ? const Color(0xff141218)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Row(
+                      child: Column(
                         children: [
-                          Container(
-                            width: 200, // fixed width for NavigationRail
-                            decoration: BoxDecoration(
-                              color: toggleModeController.isDarkMode.value
+                          const SizedBox(height: 20),
+                          const Text("SlowKey", style: TextStyle(fontSize: 15)),
+                          Divider(
+                            color: Colors.grey.shade400,
+                            thickness: 1.2,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.person, size: 58),
+                                const SizedBox(width: 25),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "Chhin Chhairong",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "email@example.com",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            color: Colors.grey.shade400,
+                            thickness: 1.2,
+                          ),
+                          Expanded(
+                            child: NavigationRail(
+                              extended: true,
+                              backgroundColor: toggleModeController
+                                      .isDarkMode.value
                                   ? const Color(0xff141218)
                                   : Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              children: [
-                                ListTile(),
-                                Text("Title"),
-                                Divider(
-                                  color: Colors.grey.shade400,
-                                  thickness: 1.2,
+                              selectedLabelTextStyle:
+                                  TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: toggleModeController.isDarkMode.value ? Colors.white : Colors.black),
+                              selectedIndex: mainController.selectedIndex.value,
+                              onDestinationSelected: mainController.changeIndex,
+                              destinations: const [
+                                NavigationRailDestination(
+                                  icon: Icon(Icons.home),
+                                  label: Text("Home"),
                                 ),
-                                Expanded(
-                                  child: NavigationRail(
-                                    extended: true,
-                                    selectedIndex:
-                                        controller.selectedIndex.value,
-                                    onDestinationSelected: (index) {
-                                      controller.changeIndex(index);
-                                    },
-                                    destinations: [
-                                      NavigationRailDestination(
-                                        icon: Icon(Icons.home),
-                                        label: Text("Home"),
-                                      ),
-                                      NavigationRailDestination(
-                                        icon: Icon(Icons.dashboard),
-                                        label: Text("Dashboard"),
-                                      ),
-                                    ],
-                                  ),
+                                NavigationRailDestination(
+                                  icon: Icon(Icons.dashboard),
+                                  label: Text("Dashboard"),
+                                ),
+                                NavigationRailDestination(
+                                  icon: Icon(FontAwesomeIcons.productHunt),
+                                  label: Text("Products"),
+                                ),
+                                NavigationRailDestination(
+                                  icon: Icon(FontAwesomeIcons.sellcast),
+                                  label: Text("Sell"),
+                                ),
+                                NavigationRailDestination(
+                                  icon: Icon(Icons.person),
+                                  label: Text("User"),
                                 ),
                               ],
                             ),
