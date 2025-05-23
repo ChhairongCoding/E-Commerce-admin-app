@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainController extends GetxController {
-  final ToggleModeController toggleModeController = Get.put(ToggleModeController());
+  final ToggleModeController toggleModeController = Get.put(
+    ToggleModeController(),
+  );
   var selectedIndex = 0.obs;
   var isCheckingToken = true.obs;
 
@@ -49,18 +51,18 @@ class MainController extends GetxController {
         content: Text("Are you sure you want to sign out?"),
         actions: [
           TextButton(
-        onPressed: () {
-          Get.back();        },
-        child: Text("Cancel"),
+            onPressed: () {
+              Get.back();
+            },
+            child: Text("Cancel"),
           ),
           TextButton(
-        onPressed: () {
-          toggleModeController.isDarkMode.value = false;
-          tokenService.clearToken();
-          Get.offAllNamed('/signIn');
-        
-        },
-        child: Text("Sign Out"),
+            onPressed: () {
+              tokenService.clearToken();
+              toggleModeController.isDarkMode.value = false;
+              Get.offAllNamed('signIn');
+            },
+            child: Text("Sign Out"),
           ),
         ],
       ),

@@ -18,7 +18,7 @@ class SignInScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: LayoutBuilder(
               builder: (context, constraints) {
-                 double contentWidth = constraints.maxWidth > 600
+                double contentWidth = constraints.maxWidth > 600
                     ? size.width * 0.5
                     : double.infinity;
 
@@ -91,8 +91,7 @@ class buildMobile extends StatelessWidget {
               children: [
                 Flexible(
                   child: GestureDetector(
-                    onTap: () {
-                    },
+                    onTap: () {},
                     child: Container(
                       height: size.height * 0.06,
                       decoration: BoxDecoration(
@@ -127,8 +126,7 @@ class buildMobile extends StatelessWidget {
               children: [
                 Flexible(
                   child: GestureDetector(
-                    onTap: () {
-                    },
+                    onTap: () {},
                     child: Container(
                       height: size.height * 0.06,
                       decoration: BoxDecoration(
@@ -162,10 +160,9 @@ class buildMobile extends StatelessWidget {
             Row(
               spacing: 10,
               children: [
-                Expanded(child: Divider(thickness: 1,)),
-                Text( "Or Continue With Email", style: TextStyle(fontSize: 15)),
-                Expanded(child: Divider(thickness: 1,)),
-
+                Expanded(child: Divider(thickness: 1)),
+                Text("Or Continue With Email", style: TextStyle(fontSize: 15)),
+                Expanded(child: Divider(thickness: 1)),
               ],
             ),
           ],

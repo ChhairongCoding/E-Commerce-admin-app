@@ -14,7 +14,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return mainController.isCheckingToken.value
-          ?  Scaffold(body: Container())
+          ? Scaffold(body: Container())
           : Scaffold(
               backgroundColor: toggleModeController.isDarkMode.value
                   ? const Color.fromARGB(255, 31, 31, 31)
@@ -40,10 +40,7 @@ class MainScreen extends StatelessWidget {
                         children: [
                           const SizedBox(height: 20),
                           const Text("SlowKey", style: TextStyle(fontSize: 15)),
-                          Divider(
-                            color: Colors.grey.shade400,
-                            thickness: 1.2,
-                          ),
+                          Divider(color: Colors.grey.shade400, thickness: 1.2),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Row(
@@ -74,19 +71,21 @@ class MainScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Divider(
-                            color: Colors.grey.shade400,
-                            thickness: 1.2,
-                          ),
+                          Divider(color: Colors.grey.shade400, thickness: 1.2),
                           Expanded(
                             child: NavigationRail(
                               extended: true,
-                              backgroundColor: toggleModeController
-                                      .isDarkMode.value
+                              backgroundColor:
+                                  toggleModeController.isDarkMode.value
                                   ? const Color(0xff141218)
                                   : Colors.white,
-                              selectedLabelTextStyle:
-                                  TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: toggleModeController.isDarkMode.value ? Colors.white : Colors.black),
+                              selectedLabelTextStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: toggleModeController.isDarkMode.value
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
                               selectedIndex: mainController.selectedIndex.value,
                               onDestinationSelected: mainController.changeIndex,
                               destinations: const [
@@ -158,7 +157,9 @@ class MainScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 16),
+                              horizontal: 20,
+                              vertical: 16,
+                            ),
                             width: double.infinity,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
