@@ -6,6 +6,11 @@ import 'package:get/get.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final cfPasswordController = TextEditingController();
+
   final SignUpController signUpController = Get.put(SignUpController());
 
   @override
@@ -38,7 +43,13 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: buildMobile(signUpController: signUpController),
+                  child: buildMobile(
+                    signUpController: signUpController,
+                    fullname: fullNameController,
+                    email: emailController,
+                    password: passwordController,
+                    cfPassword: cfPasswordController,
+                  ),
                 );
               },
             ),
@@ -50,10 +61,20 @@ class SignUpScreen extends StatelessWidget {
 }
 
 class buildMobile extends StatelessWidget {
-  buildMobile({super.key, required this.signUpController});
+  buildMobile({
+    super.key,
+    required this.signUpController,
+    this.fullname,
+    this.email,
+    this.password,
+    this.cfPassword,
+  });
   final SignUpController signUpController;
+  final TextEditingController? fullname;
+  final TextEditingController? email;
+  final TextEditingController? password;
+  final TextEditingController? cfPassword;
   final ToggleModeController toggleModeController = Get.find();
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -82,13 +103,15 @@ class buildMobile extends StatelessWidget {
               children: [
                 Flexible(
                   child: GestureDetector(
-                    onTap: () {
-                    },
+                    onTap: () {},
                     child: Container(
                       height: size.height * 0.06,
                       decoration: BoxDecoration(
-                        
-                        border: Border.all(color: toggleModeController.isDarkMode.value ? Colors.white:  Colors.black),
+                        border: Border.all(
+                          color: toggleModeController.isDarkMode.value
+                              ? Colors.white
+                              : Colors.black,
+                        ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
@@ -119,12 +142,15 @@ class buildMobile extends StatelessWidget {
               children: [
                 Flexible(
                   child: GestureDetector(
-                    onTap: () {
-                    },
+                    onTap: () {},
                     child: Container(
                       height: size.height * 0.06,
                       decoration: BoxDecoration(
-                        border: Border.all(color: toggleModeController.isDarkMode.value ? Colors.white:  Colors.black),
+                        border: Border.all(
+                          color: toggleModeController.isDarkMode.value
+                              ? Colors.white
+                              : Colors.black,
+                        ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
@@ -153,10 +179,9 @@ class buildMobile extends StatelessWidget {
             Row(
               spacing: 10,
               children: [
-                Expanded(child: Divider(thickness: 1,)),
-                Text( "Or Continue With Email", style: TextStyle(fontSize: 15)),
-                Expanded(child: Divider(thickness: 1,)),
-
+                Expanded(child: Divider(thickness: 1)),
+                Text("Or Continue With Email", style: TextStyle(fontSize: 15)),
+                Expanded(child: Divider(thickness: 1)),
               ],
             ),
             SizedBox(height: 10),
@@ -170,16 +195,22 @@ class buildMobile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Full Name", style: TextStyle(fontSize: 14)),
-                  SizedBox(height:5),
-                  CustomTextfieldWidget(hintText: "Full Name"),
+                  SizedBox(height: 5),
+                  CustomTextfieldWidget(
+                    controller: fullname,
+                    hintText: "Full Name",
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Email Address", style: TextStyle(fontSize: 14)),
-                  SizedBox(height:5),
-                  CustomTextfieldWidget(hintText: "Enter Email"),
+                  SizedBox(height: 5),
+                  CustomTextfieldWidget(
+                    controller: email,
+                    hintText: "Enter Email",
+                  ),
                 ],
               ),
               Column(
@@ -187,7 +218,10 @@ class buildMobile extends StatelessWidget {
                 children: [
                   Text("Password", style: TextStyle(fontSize: 14)),
                   SizedBox(height: 5),
-                  CustomTextfieldWidget(hintText: "Enter Password"),
+                  CustomTextfieldWidget(
+                    controller: password,
+                    hintText: "Enter Password",
+                  ),
                 ],
               ),
               Column(
@@ -195,10 +229,13 @@ class buildMobile extends StatelessWidget {
                 children: [
                   Text("Confirm Password", style: TextStyle(fontSize: 14)),
                   SizedBox(height: 5),
-                  CustomTextfieldWidget(hintText: "Confirm Password"),
+                  CustomTextfieldWidget(
+                    controller: cfPassword,
+                    hintText: "Confirm Password",
+                  ),
                 ],
               ),
-              
+
               Row(
                 children: [
                   Obx(
@@ -216,10 +253,7 @@ class buildMobile extends StatelessWidget {
                         Text("Read the "),
                         Text(
                           "Terms and Privacy",
-                          style: TextStyle(
-                           
-                            color: Colors.blue,
-                          ),
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ],
                     ),
@@ -237,7 +271,24 @@ class buildMobile extends StatelessWidget {
                 ),
                 child: Text("Sign Up", style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  // Add sign-up logic here
+                  String FullName = fullname!.text;
+                  String Email = email!.text;
+                  String Password = password!.text;
+                  String CfPassword = cfPassword!.text;
+
+                  if (Password == CfPassword) {
+                    signUpController.signUp(FullName, Email, Password);
+                    print("$CfPassword , $password , $fullname , $Email");
+                  } else {
+                    Get.snackbar(
+                      "Sign Up",
+                      "Passwords do not match.",
+                      snackPosition: SnackPosition.TOP,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                      duration: Duration(seconds: 10),
+                    );
+                  }
                 },
               ),
               SizedBox(height: 5),
@@ -247,9 +298,7 @@ class buildMobile extends StatelessWidget {
                   Text("Have an account?"),
                   TextButton(
                     onPressed: () => Get.toNamed("signIn"),
-                    child: Text(
-                      "Sign In",
-                    ),
+                    child: Text("Sign In"),
                   ),
                 ],
               ),

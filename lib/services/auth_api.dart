@@ -14,7 +14,7 @@ class AuthApi {
     try {
       Get.dialog(
         Center(child: CircularProgressIndicator()),
-        barrierDismissible: false, 
+        barrierDismissible: false,
       );
 
       var url = Uri.parse("$baseUrl/users/login");
@@ -30,7 +30,6 @@ class AuthApi {
       Get.back();
 
       if (res.statusCode == 201) {
-
         tokenService.setToken(jsonDecode(res.body)["token"]);
         Get.snackbar(
           "Sign In",
@@ -61,6 +60,49 @@ class AuthApi {
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
+    }
+  }
+
+  Future<void> signUp(String fullname, String email, String password) async {
+    Map<String, dynamic> body = {
+      "name": fullname,
+      "email": email,
+      "password": password,
+    };
+    try {
+      var url = Uri.parse("$baseUrl/users/register");
+      var res = await http.post(
+        url,
+        headers: {
+          'Content-Type': "application/json",
+          "x-api-key": "my_super_secret_key",
+        },
+        body: jsonEncode(body),
+      );
+
+      if (res.statusCode == 201) {
+        tokenService.setToken(jsonDecode(res.body)["token"]);
+        Get.snackbar(
+          "Sign Up",
+          "Sign Up successfully!",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Color(0xff012B43),
+          colorText: Colors.white,
+          duration: Duration(seconds: 10),
+        );
+        Get.toNamed("/");
+      } else {
+        Get.snackbar(
+          "Sign Up",
+          "Sign Up Error, something went wrong. Make sure your emmail and password are correct!",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Color(0xff012B43),
+          colorText: Colors.white,
+          duration: Duration(seconds: 10),
+        );
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

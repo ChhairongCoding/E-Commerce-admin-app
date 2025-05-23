@@ -1,7 +1,9 @@
 import 'package:e_commerce_admin_app/controllers/auth_controller.dart';
 import 'package:e_commerce_admin_app/controllers/main_controller.dart';
 import 'package:e_commerce_admin_app/controllers/sign_in_controller.dart';
+import 'package:e_commerce_admin_app/controllers/sign_up_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
+import 'package:e_commerce_admin_app/services/auth_api.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:e_commerce_admin_app/views/Product_scrren.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
@@ -17,10 +19,12 @@ import 'package:get_storage/get_storage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  Get.put(AuthApi());
   Get.put(MainController());
   Get.put(AuthController());
   Get.put(ToggleModeController());
   Get.put(SignInController());
+  Get.put(SignUpController());
   Get.put(TokenService());
   runApp(MyApp());
 }
@@ -68,10 +72,6 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? token = tokenService.getToken();
-
-
-
-
     // You can also show a loading spinner here if checking token from async source
     return token.isNotEmpty ? MainScreen() : SignInScreen();
   }
