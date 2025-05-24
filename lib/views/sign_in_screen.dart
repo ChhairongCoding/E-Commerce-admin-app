@@ -31,7 +31,7 @@ class SignInScreen extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         offset: Offset(0, 2),
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withAlpha((0.05 * 255).toInt()),
                         blurRadius: 8,
                       ),
                     ],
@@ -51,6 +51,7 @@ class SignInScreen extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class buildMobile extends StatelessWidget {
   const buildMobile({
     super.key,

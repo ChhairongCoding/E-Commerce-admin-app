@@ -3,6 +3,7 @@ import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 class AuthApi {
@@ -52,6 +53,7 @@ class AuthApi {
       }
     } catch (e) {
       Get.back();
+      // ignore: avoid_print
       print(e);
       Get.snackbar(
         "Error",

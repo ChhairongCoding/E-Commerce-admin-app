@@ -38,6 +38,7 @@ dependencies:
   get_storage:
   google_fonts: ^6.1.0
   font_awesome_flutter: ^10.8.0
+  hugeicons: ^0.0.11
 
 dev_dependencies:
   flutter_test:

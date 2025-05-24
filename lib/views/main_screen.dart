@@ -3,6 +3,7 @@ import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
@@ -90,16 +91,23 @@ class MainScreen extends StatelessWidget {
                               onDestinationSelected: mainController.changeIndex,
                               destinations: const [
                                 NavigationRailDestination(
-                                  icon: Icon(Icons.home),
-                                  label: Text("Home"),
-                                ),
-                                NavigationRailDestination(
-                                  icon: Icon(Icons.dashboard),
+                                  icon: Icon(HugeIcons.strokeRoundedHome05),
                                   label: Text("Dashboard"),
                                 ),
                                 NavigationRailDestination(
-                                  icon: Icon(FontAwesomeIcons.productHunt),
+                                  icon: Icon(
+                                    HugeIcons.strokeRoundedProductLoading,
+                                  ),
                                   label: Text("Products"),
+                                ),
+
+                                NavigationRailDestination(
+                                  icon: Icon(HugeIcons.strokeRoundedArrange),
+                                  label: Text("Category"),
+                                ),
+                                NavigationRailDestination(
+                                  icon: Icon(HugeIcons.strokeRoundedBrandfetch),
+                                  label: Text("Brand"),
                                 ),
                                 NavigationRailDestination(
                                   icon: Icon(FontAwesomeIcons.sellcast),
@@ -157,8 +165,8 @@ class MainScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 16,
+                              horizontal: 30,
+                              vertical: 30,
                             ),
                             width: double.infinity,
                             child: Row(

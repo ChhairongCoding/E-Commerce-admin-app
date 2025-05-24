@@ -1,9 +1,10 @@
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:e_commerce_admin_app/views/Product_scrren.dart';
+import 'package:e_commerce_admin_app/views/brand_screen.dart';
+import 'package:e_commerce_admin_app/views/category_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
-import 'package:e_commerce_admin_app/views/show_terms_privacy_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +17,9 @@ class MainController extends GetxController {
 
   final List<Widget> listPage = [
     HomeScreen(),
-    ShowTermsPrivacyScreen(),
     ProductScrren(),
+    CategoryScreen(),
+    BrandScreen(),
     SellScreen(),
   ];
   TokenService tokenService = TokenService();
