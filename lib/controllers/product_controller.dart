@@ -5,17 +5,24 @@ import 'package:get/get.dart';
 class ProductController extends GetxController {
   ProductApi productApi = ProductApi();
   List<Product> products = <Product>[].obs;
-
+  List<ProductImage> imageList = <ProductImage>[].obs;
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getProducts();
+    getProductsImage();
   }
 
   Future<void> getProducts() async {
     final res = await productApi.fetchAllProducts();
     products.addAll(res);
-    print(products);
+    print("product : ${products}");
+  }
+
+  Future<void> getProductsImage() async {
+    final res = await productApi.fetchImageProduct();
+    imageList.addAll(res);
+    print("image: ${imageList}");
   }
 }

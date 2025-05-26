@@ -1,4 +1,4 @@
-import 'package:e_commerce_admin_app/controllers/home_controller.dart';
+import 'package:e_commerce_admin_app/controllers/category_controller.dart';
 import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/models/product_model.dart' as model;
@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final ToggleModeController toggleModeController = Get.find();
-  final HomeController homeController = Get.put(HomeController());
+  final CategoryController categoryController = Get.put(CategoryController());
   final ProductController productController = Get.put(ProductController());
 
   @override
@@ -43,14 +43,24 @@ class HomeScreen extends StatelessWidget {
           ),
 
           Expanded(
-            child: ListView(children: [BuildTable(productController.products)]),
+            child: ListView(
+              children: [
+                BuildTable(
+                  productController.products,
+                  productController.imageList,
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Column BuildTable(List<model.Product> products) {
+  Column BuildTable(
+    List<model.Product> products,
+    List<model.ProductImage> images,
+  ) {
     return Column(
       children: [
         Text("Top selling products", style: TextStyle(fontSize: 20)),
@@ -95,23 +105,29 @@ class HomeScreen extends StatelessWidget {
             Divider(height: 30, thickness: 1),
 
             Obx(() {
+              final imageProducts = productController.imageList;
+
               final products = productController.products;
+
               return Column(
                 children: List.generate(products.length, (index) {
                   if (index.isEven) {
-                    // Even index: product row
                     final product = products[index];
                     return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Expanded(
-                        //   child: Image.network(
-                        //     //Fix tomorrow error do know how to get url
-                        //     "${product.images}",
-                        //     height: 50,
-                        //     width: 50,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
+                        Expanded(
+                          child: Image.network(
+                            (imageProducts != null &&
+                                    imageProducts.isNotEmpty &&
+                                    imageProducts.first.url != null)
+                                ? imageProducts.first.url!
+                                : "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                         Expanded(
                           child: Text(
                             "${product.name}",
@@ -138,13 +154,15 @@ class HomeScreen extends StatelessWidget {
   Widget buildCard(Size size) {
     return Obx(() {
       final isDark = toggleModeController.isDarkMode.value;
-      final categoryCount = homeController.categories.length;
-
+      final categoryCount = categoryController.categories.length;
       return Container(
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: isDark ? Colors.white : Color(0xff012B43),
+          color: isDark
+              ? const Color.fromARGB(255, 233, 233, 233)
+              : Color(0xff012B43),
           borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Color.fromARGB(255, 190, 190, 190)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
