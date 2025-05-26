@@ -28,9 +28,7 @@ class MainScreen extends StatelessWidget {
                       width: 350,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: toggleModeController.isDarkMode.value
-                              ? Colors.white
-                              : Colors.black,
+                          color: Color.fromARGB(255, 190, 190, 190),
                         ),
                         color: toggleModeController.isDarkMode.value
                             ? const Color(0xff141218)
@@ -155,9 +153,7 @@ class MainScreen extends StatelessWidget {
                             height: 100,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: toggleModeController.isDarkMode.value
-                                    ? Colors.white
-                                    : Colors.black,
+                                color: Color.fromARGB(255, 190, 190, 190),
                               ),
                               color: toggleModeController.isDarkMode.value
                                   ? const Color(0xff141218)
@@ -196,9 +192,7 @@ class MainScreen extends StatelessWidget {
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: toggleModeController.isDarkMode.value
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: Color.fromARGB(255, 190, 190, 190),
                                 ),
                                 color: toggleModeController.isDarkMode.value
                                     ? const Color(0xff141218)

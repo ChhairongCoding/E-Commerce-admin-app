@@ -24,7 +24,7 @@ class Product {
   final int? stock;
   final double? ratings;
   final List<dynamic> reviews;
-  final List<Image> images;
+  final List<ProductImage> images; // Renamed here
   final String? createdBy;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -34,17 +34,19 @@ class Product {
       id: json["id"],
       name: json["name"],
       description: json["description"],
-      price: json["price"],
+      price: (json["price"] as num?)?.toDouble(),
       categoryId: json["categoryId"],
       brand: json["brand"],
       stock: json["stock"],
-      ratings: json["ratings"],
+      ratings: (json["ratings"] as num?)?.toDouble(),
       reviews: json["reviews"] == null
           ? []
           : List<dynamic>.from(json["reviews"]!.map((x) => x)),
       images: json["images"] == null
           ? []
-          : List<Image>.from(json["images"]!.map((x) => Image.fromJson(x))),
+          : List<ProductImage>.from(
+              json["images"]!.map((x) => ProductImage.fromJson(x)),
+            ),
       createdBy: json["createdBy"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
@@ -57,13 +59,13 @@ class Product {
   }
 }
 
-class Image {
-  Image({required this.url});
+class ProductImage {
+  ProductImage({required this.url});
 
   final String? url;
 
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(url: json["url"]);
+  factory ProductImage.fromJson(Map<String, dynamic> json) {
+    return ProductImage(url: json["url"]);
   }
 
   @override

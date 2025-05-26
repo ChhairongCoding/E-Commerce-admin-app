@@ -1,14 +1,18 @@
-import 'package:e_commerce_admin_app/controllers/home_controller.dart';
+import 'package:e_commerce_admin_app/controllers/category_controller.dart';
+import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
+import 'package:e_commerce_admin_app/models/product_model.dart' as model;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:get/instance_manager.dart' as img;
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final ToggleModeController toggleModeController = Get.find();
-  final HomeController homeController = Get.put(HomeController());
+  final CategoryController categoryController = Get.put(CategoryController());
+  final ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +43,24 @@ class HomeScreen extends StatelessWidget {
           ),
 
           Expanded(
-            child: ListView(children: [BuildTable(homeController.products)]),
+            child: ListView(
+              children: [
+                BuildTable(
+                  productController.products,
+                  productController.imageList,
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Column BuildTable(List<Map<String, dynamic>> products) {
+  Column BuildTable(
+    List<model.Product> products,
+    List<model.ProductImage> images,
+  ) {
     return Column(
       children: [
         Text("Top selling products", style: TextStyle(fontSize: 20)),
@@ -91,33 +105,38 @@ class HomeScreen extends StatelessWidget {
             Divider(height: 30, thickness: 1),
 
             Obx(() {
-              final products = homeController.products;
+              final imageProducts = productController.imageList;
+
+              final products = productController.products;
+
               return Column(
-                children: List.generate(products.length * 2 - 1, (index) {
+                children: List.generate(products.length, (index) {
                   if (index.isEven) {
-                    // Even index: product row
-                    final product = products[index ~/ 2];
+                    final product = products[index];
                     return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
                           child: Image.network(
-                            product["image"],
+                            (imageProducts != null &&
+                                    imageProducts.isNotEmpty &&
+                                    imageProducts.first.url != null)
+                                ? imageProducts.first.url!
+                                : "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
                             height: 50,
                             width: 50,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Icon(Icons.image),
+                            fit: BoxFit.contain,
                           ),
                         ),
                         Expanded(
                           child: Text(
-                            product["ProductName"],
+                            "${product.name}",
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Expanded(child: Text(product["Brand"])),
-                        Expanded(child: Text("${product["Stock"]}")),
-                        Expanded(child: Text("\$${product["Price"]}")),
+                        Expanded(child: Text("${product.brand}")),
+                        Expanded(child: Text("${product.stock}")),
+                        Expanded(child: Text("\$${product.price}")),
                       ],
                     );
                   } else {
@@ -135,13 +154,15 @@ class HomeScreen extends StatelessWidget {
   Widget buildCard(Size size) {
     return Obx(() {
       final isDark = toggleModeController.isDarkMode.value;
-      final categoryCount = homeController.categories.length;
-
+      final categoryCount = categoryController.categories.length;
       return Container(
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: isDark ? Colors.white : Color(0xff012B43),
+          color: isDark
+              ? const Color.fromARGB(255, 233, 233, 233)
+              : Color(0xff012B43),
           borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Color.fromARGB(255, 190, 190, 190)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
