@@ -8,7 +8,7 @@ class CategoryApi {
   Future<List<Category>> getCategory() async {
     TokenService tokenService = TokenService();
     try {
-      final token = await tokenService.getToken();
+      final token = tokenService.getToken();
       var url = Uri.parse("$baseUrl/categories");
       var res = await http.get(
         url,

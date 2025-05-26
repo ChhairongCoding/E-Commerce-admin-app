@@ -1,14 +1,18 @@
 import 'package:e_commerce_admin_app/controllers/home_controller.dart';
+import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
+import 'package:e_commerce_admin_app/models/product_model.dart' as model;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:get/instance_manager.dart' as img;
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final ToggleModeController toggleModeController = Get.find();
   final HomeController homeController = Get.put(HomeController());
+  final ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +43,14 @@ class HomeScreen extends StatelessWidget {
           ),
 
           Expanded(
-            child: ListView(children: [BuildTable(homeController.products)]),
+            child: ListView(children: [BuildTable(productController.products)]),
           ),
         ],
       ),
     );
   }
 
-  Column BuildTable(List<Map<String, dynamic>> products) {
+  Column BuildTable(List<model.Product> products) {
     return Column(
       children: [
         Text("Top selling products", style: TextStyle(fontSize: 20)),
@@ -91,33 +95,32 @@ class HomeScreen extends StatelessWidget {
             Divider(height: 30, thickness: 1),
 
             Obx(() {
-              final products = homeController.products;
+              final products = productController.products;
               return Column(
-                children: List.generate(products.length * 2 - 1, (index) {
+                children: List.generate(products.length, (index) {
                   if (index.isEven) {
                     // Even index: product row
-                    final product = products[index ~/ 2];
+                    final product = products[index];
                     return Row(
                       children: [
-                        Expanded(
-                          child: Image.network(
-                            product["image"],
-                            height: 50,
-                            width: 50,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Icon(Icons.image),
-                          ),
-                        ),
+                        // Expanded(
+                        //   child: Image.network(
+                        //     //Fix tomorrow error do know how to get url
+                        //     "${product.images}",
+                        //     height: 50,
+                        //     width: 50,
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // ),
                         Expanded(
                           child: Text(
-                            product["ProductName"],
+                            "${product.name}",
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Expanded(child: Text(product["Brand"])),
-                        Expanded(child: Text("${product["Stock"]}")),
-                        Expanded(child: Text("\$${product["Price"]}")),
+                        Expanded(child: Text("${product.brand}")),
+                        Expanded(child: Text("${product.stock}")),
+                        Expanded(child: Text("\$${product.price}")),
                       ],
                     );
                   } else {

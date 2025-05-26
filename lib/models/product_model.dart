@@ -34,11 +34,11 @@ class Product {
       id: json["id"],
       name: json["name"],
       description: json["description"],
-      price: json["price"],
+      price: (json["price"] as num?)?.toDouble(),
       categoryId: json["categoryId"],
       brand: json["brand"],
       stock: json["stock"],
-      ratings: json["ratings"],
+      ratings: (json["ratings"] as num?)?.toDouble(),
       reviews: json["reviews"] == null
           ? []
           : List<dynamic>.from(json["reviews"]!.map((x) => x)),

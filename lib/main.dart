@@ -1,6 +1,7 @@
 import 'package:e_commerce_admin_app/controllers/auth_controller.dart';
 import 'package:e_commerce_admin_app/controllers/home_controller.dart';
 import 'package:e_commerce_admin_app/controllers/main_controller.dart';
+import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/controllers/sign_in_controller.dart';
 import 'package:e_commerce_admin_app/controllers/sign_up_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
@@ -24,6 +25,7 @@ void main() async {
   Get.put(MainController());
   Get.put(AuthController());
   Get.put(HomeController());
+  Get.put(ProductController());
   Get.put(ToggleModeController());
   Get.put(SignInController());
   Get.put(SignUpController());
