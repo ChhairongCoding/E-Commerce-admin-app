@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Fixed height, non-scrollable grid
           SizedBox(
-            height: size.width <= 1200 ? 600 : 300,
+            height: size.width <= 1200 ? 600 : 200,
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -62,6 +62,7 @@ class HomeScreen extends StatelessWidget {
     List<model.ProductImage> images,
   ) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Top selling products", style: TextStyle(fontSize: 20)),
         Column(
@@ -100,13 +101,18 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
+                Expanded(
+                  child: Text(
+                    "Action",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
             ),
             Divider(height: 30, thickness: 1),
 
             Obx(() {
               final imageProducts = productController.imageList;
-
               final products = productController.products;
 
               return Column(
@@ -118,11 +124,8 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Image.network(
-                            (imageProducts != null &&
-                                    imageProducts.isNotEmpty &&
-                                    imageProducts.first.url != null)
-                                ? imageProducts.first.url!
-                                : "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+                            product.images.first.url ??
+                                "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
                             height: 50,
                             width: 50,
                             fit: BoxFit.contain,
@@ -137,6 +140,12 @@ class HomeScreen extends StatelessWidget {
                         Expanded(child: Text("${product.brand}")),
                         Expanded(child: Text("${product.stock}")),
                         Expanded(child: Text("\$${product.price}")),
+                        Expanded(
+                          child: Row(
+                            spacing: 10,
+                            children: [Text("Edit"), Text("Delete")],
+                          ),
+                        ),
                       ],
                     );
                   } else {
@@ -174,7 +183,7 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   "$categoryCount",
                   style: TextStyle(
-                    fontSize: size.width < 1200 ? 40 : 60,
+                    fontSize: size.width < 1200 ? 35 : 55,
                     fontWeight: FontWeight.bold,
                     height: 1,
                     color: isDark ? Color(0xff141218) : Colors.white,

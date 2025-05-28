@@ -1,4 +1,3 @@
-import 'package:e_commerce_admin_app/controllers/auth_controller.dart';
 import 'package:e_commerce_admin_app/controllers/category_controller.dart';
 import 'package:e_commerce_admin_app/controllers/home_controller.dart';
 import 'package:e_commerce_admin_app/controllers/main_controller.dart';
@@ -6,25 +5,26 @@ import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/controllers/sign_in_controller.dart';
 import 'package:e_commerce_admin_app/controllers/sign_up_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
+import 'package:e_commerce_admin_app/controllers/update_add_controller.dart';
 import 'package:e_commerce_admin_app/services/auth_api.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
-import 'package:e_commerce_admin_app/views/Product_scrren.dart';
+import 'package:e_commerce_admin_app/views/Product_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/main_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
 import 'package:e_commerce_admin_app/views/show_terms_privacy_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_in_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_up_screen.dart';
+import 'package:e_commerce_admin_app/views/update_add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
+    await GetStorage.init();   
   Get.put(AuthApi());
   Get.put(MainController());
-  Get.put(AuthController());
   Get.put(HomeController());
   Get.put(CategoryController());
   Get.put(ProductController());
@@ -32,6 +32,7 @@ void main() async {
   Get.put(SignInController());
   Get.put(SignUpController());
   Get.put(TokenService());
+  Get.put(UpdateAddController());   
   runApp(MyApp());
 }
 
@@ -55,10 +56,11 @@ class _MyAppState extends State<MyApp> {
         getPages: [
           GetPage(name: "/", page: () => RootScreen()),
           GetPage(name: "/home", page: () => HomeScreen()),
-          GetPage(name: "/product", page: () => ProductScrren()),
+          GetPage(name: "/product", page: () => ProductScreen()),
           GetPage(name: "/sell", page: () => SellScreen()),
           GetPage(name: "/signIn", page: () => SignInScreen()),
           GetPage(name: "/signUp", page: () => SignUpScreen()),
+          GetPage(name: "/updateAdd", page: () => UpdateAddScreen()),
           GetPage(
             name: "/showTermsAndPrivacy",
             page: () => ShowTermsPrivacyScreen(),
@@ -71,8 +73,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// ✅ This widget decides whether to show MainScreen or SignInScreen
-// ignore: use_key_in_widget_constructors
 class RootScreen extends StatelessWidget {
   final TokenService tokenService = Get.find();
 
