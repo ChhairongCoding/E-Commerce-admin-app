@@ -6,7 +6,7 @@ class ProductScreen extends StatelessWidget {
   ProductScreen({super.key});
   final RxString isSelect = "value 1".obs;
 
-  List<String> listDropDown = [
+  final List<String> listDropDown = [
     "value 1",
     "Value 2",
     "Value 3",

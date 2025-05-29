@@ -45,10 +45,7 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                BuildTable(
-                  productController.products,
-                  productController.imageList,
-                ),
+                buildTable(),
               ],
             ),
           ),
@@ -57,10 +54,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Column BuildTable(
-    List<model.Product> products,
-    List<model.ProductImage> images,
-  ) {
+  Column buildTable() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -112,9 +106,8 @@ class HomeScreen extends StatelessWidget {
             Divider(height: 30, thickness: 1),
 
             Obx(() {
-              final imageProducts = productController.imageList;
-              final products = productController.products;
-
+              final productRes = productController.productRes.value;
+              final products = productController.productRes.value.products;
               return Column(
                 children: List.generate(products.length, (index) {
                   if (index.isEven) {

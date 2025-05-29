@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_admin_app/controllers/sign_up_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/widgets/custom_textfield_widget.dart';
@@ -43,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: buildMobile(
+                  child: BuildMobile(
                     signUpController: signUpController,
                     fullname: fullNameController,
                     email: emailController,
@@ -60,8 +62,8 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-class buildMobile extends StatelessWidget {
-  buildMobile({
+class BuildMobile extends StatelessWidget {
+  BuildMobile({
     super.key,
     required this.signUpController,
     this.fullname,
@@ -271,14 +273,14 @@ class buildMobile extends StatelessWidget {
                 ),
                 child: Text("Sign Up", style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  String FullName = fullname!.text;
-                  String Email = email!.text;
-                  String Password = password!.text;
-                  String CfPassword = cfPassword!.text;
+                  String fullName = fullname!.text;
+                  String emailA = email!.text;
+                  String pwd = password!.text;
+                  String confirmPassword = cfPassword!.text;
 
-                  if (Password == CfPassword) {
-                    signUpController.signUp(FullName, Email, Password);
-                    print("$CfPassword , $password , $fullname , $Email");
+                  if (pwd == confirmPassword) {
+                    signUpController.signUp(fullName, emailA, pwd);
+                    log("$confirmPassword , $password , $fullname , $emailA");
                   } else {
                     Get.snackbar(
                       "Sign Up",

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,7 @@ class AuthApi {
         );
       }
     } catch (e) {
-      print(e);
+      log("Error: $e");
     }
   }
 }
