@@ -111,9 +111,13 @@ class MainScreen extends StatelessWidget {
                                   icon: Icon(FontAwesomeIcons.sellcast),
                                   label: Text("Sell"),
                                 ),
+                                // NavigationRailDestination(
+                                //   icon: Icon(Icons.person),
+                                //   label: Text("User"),
+                                // ),
                                 NavigationRailDestination(
-                                  icon: Icon(Icons.person),
-                                  label: Text("User"),
+                                  icon: Icon(Icons.edit),
+                                  label: Text("Edit"),
                                 ),
                               ],
                             ),
@@ -172,7 +176,7 @@ class MainScreen extends StatelessWidget {
                                   "Hello Chhairong,",
                                   style: TextStyle(
                                     fontFamily: "Poppins",
-                                    fontSize: 20,
+                                    fontSize: 25,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
