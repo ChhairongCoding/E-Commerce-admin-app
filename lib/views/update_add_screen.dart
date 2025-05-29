@@ -3,7 +3,6 @@ import 'package:e_commerce_admin_app/widgets/custom_textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class UpdateAddScreen extends StatelessWidget {
   UpdateAddScreen({super.key});
@@ -23,7 +22,7 @@ class UpdateAddScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Form(
-                    key: updateAddController.Formkey,
+                    key: updateAddController.formkey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       spacing: 10,

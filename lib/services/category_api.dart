@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
@@ -23,6 +24,7 @@ class CategoryApi {
           "Authorization": "Bearer $token",
         },
       );
+      Get.back();
 
       if (res.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(res.body);
@@ -30,11 +32,12 @@ class CategoryApi {
             .map<Category>((json) => Category.fromJson(json))
             .toList();
       } else {
-        throw Exception("Failed to load categories. Status: ${res.statusCode}");
+        log("Failed to load categories. Status: ${res.statusCode}");
+        return [];
       }
     } catch (e) {
-      print("Error fetching categories: $e");
-      rethrow;
+      log("Error fetching categories: $e");
+      return [];
     }
   }
 }

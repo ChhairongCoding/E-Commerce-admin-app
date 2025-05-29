@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/services/category_api.dart';
 import 'package:get/get.dart';
@@ -16,9 +18,9 @@ class CategoryController extends GetxController {
     try {
       final response = await categoryApi.getCategory();
       categories.addAll(response.cast<Category>());
-      print('Fetched ${categories.length} categories.');
+      log('Fetched ${categories.length} categories.');
     } catch (e) {
-      print('Failed to fetch categories: $e');
+      log('Failed to fetch categories: $e');
     }
   }
 }

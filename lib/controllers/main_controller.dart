@@ -1,6 +1,6 @@
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
-import 'package:e_commerce_admin_app/views/Product_screen.dart';
+import 'package:e_commerce_admin_app/views/product_screen.dart';
 import 'package:e_commerce_admin_app/views/brand_screen.dart';
 import 'package:e_commerce_admin_app/views/category_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';

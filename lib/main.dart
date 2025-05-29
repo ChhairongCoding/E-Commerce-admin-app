@@ -8,7 +8,7 @@ import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/controllers/update_add_controller.dart';
 import 'package:e_commerce_admin_app/services/auth_api.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
-import 'package:e_commerce_admin_app/views/Product_screen.dart';
+import 'package:e_commerce_admin_app/views/product_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/main_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
@@ -26,13 +26,14 @@ void main() async {
   Get.put(AuthApi());
   Get.put(MainController());
   Get.put(HomeController());
-  Get.put(CategoryController());
   Get.put(ProductController());
   Get.put(ToggleModeController());
   Get.put(SignInController());
   Get.put(SignUpController());
   Get.put(TokenService());
-  Get.put(UpdateAddController());   
+  Get.put(UpdateAddController());  
+  Get.put(CategoryController());
+
   runApp(MyApp());
 }
 
@@ -76,10 +77,11 @@ class _MyAppState extends State<MyApp> {
 class RootScreen extends StatelessWidget {
   final TokenService tokenService = Get.find();
 
+   RootScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     String? token = tokenService.getToken();
-    // You can also show a loading spinner here if checking token from async source
     return token.isNotEmpty ? MainScreen() : SignInScreen();
   }
 }
