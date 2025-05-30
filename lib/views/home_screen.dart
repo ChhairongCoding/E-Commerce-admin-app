@@ -1,7 +1,7 @@
 import 'package:e_commerce_admin_app/controllers/category_controller.dart';
 import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
-import 'package:e_commerce_admin_app/models/product_model.dart' as model;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -106,7 +106,7 @@ class HomeScreen extends StatelessWidget {
             Divider(height: 30, thickness: 1),
 
             Obx(() {
-              final productRes = productController.productRes.value;
+              // final productRes = productController.productRes.value;
               final products = productController.productRes.value.products;
               return Column(
                 children: List.generate(products.length, (index) {
