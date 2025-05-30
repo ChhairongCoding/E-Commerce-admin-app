@@ -37,8 +37,8 @@ class MainScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          const SizedBox(height: 20),
-                          const Text("SlowKey", style: TextStyle(fontSize: 15)),
+                          const SizedBox(height: 110, child:Center(child: Text("SlowKey", style: TextStyle(fontSize: 25, fontWeight:FontWeight.bold ,))),),
+                  
                           Divider(color: Colors.grey.shade400, thickness: 1.2),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
