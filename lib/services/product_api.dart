@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/product_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
@@ -19,7 +20,7 @@ class ProductApi {
         },
       );
 
-      print(res.body);
+      log(res.body);
 
 
       if (res.statusCode == 200) {
@@ -29,7 +30,7 @@ class ProductApi {
         throw "Fetching Products error: ${res.body}";
       }
     } catch (e) {
-      print("Error: $e");
+      log("Error: $e");
       return ProductResponse.empty();
     }
   }

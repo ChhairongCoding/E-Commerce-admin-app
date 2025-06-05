@@ -32,7 +32,16 @@ class AuthApi {
       Get.back();
 
       if (res.statusCode == 201) {
-        tokenService.setToken(jsonDecode(res.body)["token"]);
+        final token = jsonDecode(res.body)["token"];
+        tokenService.setToken(token);
+
+        // Decode the token to get user data (optional)
+        final payload = tokenService.decodeToken();
+        if (payload != null) {
+          log("Decoded JWT payload: $payload"); // Debug print
+          // You can access payload['id'], payload['email'], etc.
+        }
+
         Get.snackbar(
           "Sign In",
           "Sign in has been successfully!",
@@ -42,15 +51,6 @@ class AuthApi {
           duration: Duration(seconds: 10),
         );
         Get.toNamed("/");
-      } else {
-        Get.snackbar(
-          "Sign In",
-          "Sign in error, please make sure your email and password are correct!",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          duration: Duration(seconds: 10),
-        );
       }
     } catch (e) {
       Get.back();

@@ -10,7 +10,6 @@ class MainScreen extends StatelessWidget {
 
   final MainController mainController = Get.find();
   final ToggleModeController toggleModeController = Get.find();
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -119,6 +118,7 @@ class MainScreen extends StatelessWidget {
                                   icon: Icon(Icons.edit),
                                   label: Text("Edit"),
                                 ),
+                                
                               ],
                             ),
                           ),
