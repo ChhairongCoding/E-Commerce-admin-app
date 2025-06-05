@@ -8,7 +8,7 @@ import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/controllers/update_add_controller.dart';
 import 'package:e_commerce_admin_app/services/auth_api.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
-import 'package:e_commerce_admin_app/views/product_screen.dart';
+import 'package:e_commerce_admin_app/views/product-views/product_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/main_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
@@ -16,6 +16,7 @@ import 'package:e_commerce_admin_app/views/show_terms_privacy_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_in_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_up_screen.dart';
 import 'package:e_commerce_admin_app/views/update_add_screen.dart';
+import 'package:e_commerce_admin_app/views/product-views/addProduct_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -62,6 +63,7 @@ class _MyAppState extends State<MyApp> {
           GetPage(name: "/signIn", page: () => SignInScreen()),
           GetPage(name: "/signUp", page: () => SignUpScreen()),
           GetPage(name: "/updateAdd", page: () => UpdateAddScreen()),
+          GetPage(name: "/form", page: () => AddProductFormScreen()),
           GetPage(
             name: "/showTermsAndPrivacy",
             page: () => ShowTermsPrivacyScreen(),
