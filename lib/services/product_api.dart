@@ -11,7 +11,7 @@ class ProductApi {
   Future<ProductResponse> fetchAllProducts() async {
     try {
       final token = tokenService.getToken();
-      
+
       var url = Uri.parse("$baseUrl/products/my-products");
       var res = await http.get(
         url,
@@ -21,7 +21,6 @@ class ProductApi {
         },
       );
 
-      log(res.body);
       if (res.statusCode == 200) {
         return ProductResponse.fromJson(jsonDecode(res.body));
       } else {

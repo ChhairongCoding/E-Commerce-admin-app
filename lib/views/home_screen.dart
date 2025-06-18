@@ -42,13 +42,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          Expanded(
-            child: ListView(
-              children: [
-                buildTable(),
-              ],
-            ),
-          ),
+          Expanded(child: ListView(children: [buildTable()])),
         ],
       ),
     );
@@ -156,7 +150,7 @@ class HomeScreen extends StatelessWidget {
   Widget buildCard(Size size) {
     return Obx(() {
       final isDark = toggleModeController.isDarkMode.value;
-      final categoryCount = categoryController.categories.length;
+      final categoryCount = categoryController.CategoryRes;
       return Container(
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
