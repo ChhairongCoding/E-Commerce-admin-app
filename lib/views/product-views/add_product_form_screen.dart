@@ -1,6 +1,7 @@
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
 import 'package:e_commerce_admin_app/widgets/custom_textfield_widget.dart';
 import 'package:e_commerce_admin_app/widgets/dropdown_menu_brand_widget.dart';
+import 'package:e_commerce_admin_app/widgets/dropdown_menu_category_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -31,8 +32,10 @@ class AddProductFormScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15),
               child: Column(
+                spacing: 20,
                 children: [
                   DropdownMenuBrandWidget(),
+                  DropdownMenuCategoryWidget(),
                   CustomTextfieldWidget(
                     hintText: "Product Name",
                     label: "Enter Product Name",

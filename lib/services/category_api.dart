@@ -1,36 +1,35 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:developer' as developer;
 import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:http/http.dart' as http;
 
 class CategoryApi {
-  Future<List<Category>> getCategory() async {
-    TokenService tokenService = TokenService();
+  Future<CategoryResponse> getCategories() async {
     try {
-      final token = tokenService.getToken();
+      final token = TokenService().getToken();
       var url = Uri.parse("$baseUrl/categories");
       var res = await http.get(
         url,
-        headers: {
-          "x-api-key": "my_super_secret_key",
-          "Authorization": "Bearer $token",
-        },
+        headers: headers(token),
+        // {
+        //   "x-api-key": "my_super_secret_key",
+        //   "Authorization": "Bearer $token",
+        // },
       );
+      developer.log("BrandRes: ${res.body}");
 
       if (res.statusCode == 200) {
-        final List<dynamic> jsonList = jsonDecode(res.body);
-        return jsonList
-            .map<Category>((json) => Category.fromJson(json))
-            .toList();
+        return CategoryResponse.fromJson(
+          jsonDecode(res.body) as Map<String, dynamic>,
+        );
       } else {
-        log("Failed to load categories. Status: ${res.statusCode}");
-        return [];
+        developer.log("Failed to load categories. Status: ${res.statusCode}");
+        return CategoryResponse.empty();
       }
     } catch (e) {
-      log("Error fetching categories: $e");
-      return [];
+      return CategoryResponse.empty();
     }
   }
 }
