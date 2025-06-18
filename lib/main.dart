@@ -16,14 +16,14 @@ import 'package:e_commerce_admin_app/views/show_terms_privacy_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_in_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_up_screen.dart';
 import 'package:e_commerce_admin_app/views/update_add_screen.dart';
-import 'package:e_commerce_admin_app/views/product-views/addProduct_form_screen.dart';
+import 'package:e_commerce_admin_app/views/product-views/add_product_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await GetStorage.init();   
+  await GetStorage.init();
   Get.put(AuthApi());
   Get.put(MainController());
   Get.put(HomeController());
@@ -32,7 +32,7 @@ void main() async {
   Get.put(SignInController());
   Get.put(SignUpController());
   Get.put(TokenService());
-  Get.put(UpdateAddController());  
+  Get.put(UpdateAddController());
   Get.put(CategoryController());
 
   runApp(MyApp());
@@ -78,9 +78,7 @@ class _MyAppState extends State<MyApp> {
 
 class RootScreen extends StatelessWidget {
   final TokenService tokenService = Get.find();
-
-   RootScreen({super.key});
-
+  RootScreen({super.key});
   @override
   Widget build(BuildContext context) {
     String? token = tokenService.getToken();
