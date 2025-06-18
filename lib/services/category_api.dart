@@ -3,18 +3,12 @@ import 'dart:developer';
 import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class CategoryApi {
   Future<List<Category>> getCategory() async {
     TokenService tokenService = TokenService();
     try {
-      Get.dialog(
-        Center(child: CircularProgressIndicator()),
-        barrierDismissible: false,
-      );
       final token = tokenService.getToken();
       var url = Uri.parse("$baseUrl/categories");
       var res = await http.get(
@@ -24,7 +18,6 @@ class CategoryApi {
           "Authorization": "Bearer $token",
         },
       );
-      Get.back();
 
       if (res.statusCode == 200) {
         final List<dynamic> jsonList = jsonDecode(res.body);

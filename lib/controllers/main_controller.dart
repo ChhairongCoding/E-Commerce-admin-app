@@ -2,7 +2,7 @@ import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_screen.dart';
 import 'package:e_commerce_admin_app/views/brand_screen.dart';
-import 'package:e_commerce_admin_app/views/category_screen.dart';
+import 'package:e_commerce_admin_app/views/category-views/category_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
 import 'package:e_commerce_admin_app/views/update_add_screen.dart';
@@ -18,12 +18,12 @@ class MainController extends GetxController {
 
   final List<Widget> listPage = [
     HomeScreen(),
- //   ProductScreen(),
- MainProductScreen(),
+    //   ProductScreen(),
+    MainProductScreen(),
     CategoryScreen(),
     BrandScreen(),
     SellScreen(),
-    UpdateAddScreen()
+    UpdateAddScreen(),
   ];
 
   TokenService tokenService = TokenService();

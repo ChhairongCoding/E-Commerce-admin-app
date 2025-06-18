@@ -7,7 +7,18 @@ import 'package:get/get.dart';
 class CategoryController extends GetxController {
   RxList<Category> categories = <Category>[].obs;
   final CategoryApi categoryApi = CategoryApi();
+  List<String> headerTable = [
+    'ID',
+    'Category Name',
+    'Product Count',
+    'Status',
+    'Action',
+  ];
 
+  List<List<dynamic>> rowsTable = [
+    ['1', 'Nike', '100', 'Active', 'Action'],
+    ['1', 'Nike', '100', 'Active', 'Action'],
+  ];
   @override
   void onInit() {
     super.onInit();
