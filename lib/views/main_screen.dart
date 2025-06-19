@@ -36,8 +36,19 @@ class MainScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          const SizedBox(height: 110, child:Center(child: Text("SlowKey", style: TextStyle(fontSize: 25, fontWeight:FontWeight.bold ,))),),
-                  
+                          const SizedBox(
+                            height: 110,
+                            child: Center(
+                              child: Text(
+                                "SlowKey",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+
                           Divider(color: Colors.grey.shade400, thickness: 1.2),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -110,15 +121,11 @@ class MainScreen extends StatelessWidget {
                                   icon: Icon(FontAwesomeIcons.sellcast),
                                   label: Text("Sell"),
                                 ),
-                                // NavigationRailDestination(
-                                //   icon: Icon(Icons.person),
-                                //   label: Text("User"),
-                                // ),
+
                                 NavigationRailDestination(
                                   icon: Icon(Icons.edit),
                                   label: Text("Edit"),
                                 ),
-                                
                               ],
                             ),
                           ),

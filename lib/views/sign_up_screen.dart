@@ -40,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         offset: Offset(0, 2),
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withAlpha(13),
                         blurRadius: 8,
                       ),
                     ],

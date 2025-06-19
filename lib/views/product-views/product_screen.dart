@@ -108,9 +108,90 @@ class ProductScreen extends StatelessWidget {
             SizedBox(height: 15),
             Divider(height: 1, thickness: 1.1),
             SizedBox(height: 15),
+            Expanded(child: ListView(children: [buildTable()])),
           ],
         ),
       ),
+    );
+  }
+
+  Column buildTable() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Obx(() {
+          final products =
+              productController.productRes.value.data?.products ?? [];
+          if (productController.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columnSpacing: 200,
+              columns: const [
+                DataColumn(
+                  label: Text(
+                    'SNO',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Product Name',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Brands',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Stock',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Price',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Action',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+              rows: List<DataRow>.generate(products.length, (index) {
+                final product = products[index];
+                return DataRow(
+                  cells: [
+                    DataCell(Text("SNO: ${index + 1}")),
+                    DataCell(Text(product.name ?? '')),
+                    DataCell(Text(product.brand?.name ?? '')),
+                    DataCell(Text("${product.stock}")),
+                    DataCell(Text("\$${product.price}")),
+                    DataCell(
+                      Row(
+                        children: const [
+                          Text("Edit"),
+                          SizedBox(width: 10),
+                          Text("Delete"),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ),
+          );
+        }),
+      ],
     );
   }
 }

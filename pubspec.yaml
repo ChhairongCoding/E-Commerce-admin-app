@@ -41,6 +41,9 @@ dependencies:
   hugeicons: ^0.0.11
   http: ^1.4.0
   jwt_decoder: ^2.0.1
+  image_picker: ^1.1.2
+  mobkit_dashed_border: ^0.0.8
+  file_picker: ^10.2.0
 
 dev_dependencies:
   flutter_test:

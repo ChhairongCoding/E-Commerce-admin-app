@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/services/category_api.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
-  Rx<CategoryResponse> CategoryRes = CategoryResponse.empty().obs;
+  Rx<CategoryResponse> categoryRes = CategoryResponse.empty().obs;
   final isLoading = false.obs;
   final CategoryApi _categoryApi = CategoryApi();
   Rx<Category> selectedCategory = Category.empty().obs;
@@ -32,7 +30,7 @@ class CategoryController extends GetxController {
   Future<void> getCategory() async {
     isLoading(true);
     final data = await _categoryApi.getCategories();
-    CategoryRes.value = data;
+    categoryRes.value = data;
     isLoading(false);
   }
 
