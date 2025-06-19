@@ -1,20 +1,30 @@
+import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
+import 'package:e_commerce_admin_app/controllers/category_controller.dart';
+import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
 import 'package:e_commerce_admin_app/widgets/custom_textfield_widget.dart';
 import 'package:e_commerce_admin_app/widgets/dropdown_menu_brand_widget.dart';
 import 'package:e_commerce_admin_app/widgets/dropdown_menu_category_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 
 class AddProductFormScreen extends StatelessWidget {
   AddProductFormScreen({super.key});
-  final productName = TextEditingController();
+  final productNameController = TextEditingController();
+  final descritionController = TextEditingController();
+  final priceController = TextEditingController();
+  final stockController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final ProductController productController = Get.put(ProductController());
     return Container(
       decoration: BoxDecoration(),
       child: Form(
+        key: productController.formKey,
         child: Column(
           children: [
             Row(
@@ -28,30 +38,289 @@ class AddProductFormScreen extends StatelessWidget {
                 Center(child: Text("Create form")),
               ],
             ),
-
             Padding(
               padding: const EdgeInsets.all(15),
-              child: Column(
-                spacing: 20,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DropdownMenuBrandWidget(),
-                  DropdownMenuCategoryWidget(),
-                  CustomTextfieldWidget(
-                    hintText: "Product Name",
-                    label: "Enter Product Name",
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      spacing: 20,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DropdownMenuBrandWidget(),
+                        DropdownMenuCategoryWidget(),
+                        CustomTextfieldWidget(
+                          controller: productNameController,
+                          hintText: "Enter Product Name",
+                          label: "Product Name",
+                        ),
+                        CustomTextfieldWidget(
+                          controller: descritionController,
+                          hintText: "Enter Descrition",
+                          label: "Description",
+                          maxLines: 4,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please input description";
+                            }
+                            return null;
+                          },
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomTextfieldWidget(
+                                controller: priceController,
+                                hintText: "Enter Price",
+                                label: "Price",
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Expanded(
+                              child: CustomTextfieldWidget(
+                                controller: stockController,
+                                hintText: "Enter Stock",
+                                label: "Stock",
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              foregroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              elevation: 4,
+                            ),
+                            child: Text(
+                              "Add",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              final brandId = Get.find<BrandController>()
+                                  .selectedBrand
+                                  .value
+                                  .id;
+                              final categoryId = Get.find<CategoryController>();
+                              final name = productNameController.text;
+                              final description = descritionController.text;
+                              final price = priceController.text;
+                              final stock = stockController.text;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  CustomTextfieldWidget(
-                    hintText: "Descrition",
-                    label: "Enter Description",
-                  ),
-                  CustomTextfieldWidget(
-                    hintText: "Price",
-                    label: "Enter Price",
+                  SizedBox(width: 30),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Input your product images",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(height: 16),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            Obx(
+                              () => productController.isSaved.value
+                                  ? Wrap(
+                                      spacing: 10,
+                                      runSpacing: 10,
+                                      children: List.generate(
+                                        productController.filesByte.length,
+                                        (index) {
+                                          return Stack(
+                                            children: [
+                                              Container(
+                                                width: 120,
+                                                height: 120,
+                                                decoration: BoxDecoration(
+                                                  border: DashedBorder.all(
+                                                    dashLength: 10,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: Image.memory(
+                                                  productController
+                                                      .filesByte[index],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                icon: Icon(Icons.close),
+                                                onPressed: () =>
+                                                    productController
+                                                        .removeImage(index),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 200,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey),
+                                      ),
+                                      child: Icon(
+                                        Icons.image,
+                                        size: 40,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "You can add up to 3 images.",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.dialog(
+                              AlertDialog(
+                                title: Text("Upload images"),
+                                content: imageDialog(context),
+                                actions: [
+                                  ElevatedButton.icon(
+                                    icon: Icon(Icons.close),
+                                    label: Text("Close"),
+                                    onPressed: () {
+                                      productController.filesByte.clear();
+                                      Get.back();
+                                    },
+                                  ),
+                                  ElevatedButton.icon(
+                                    icon: Icon(Icons.save),
+                                    label: Text("Save"),
+                                    onPressed: () {
+                                      productController.isSaved.value = true;
+                                      Get.back();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: Text("Upload Images"),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget imageDialog(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final ProductController productController = Get.find<ProductController>();
+
+    return GestureDetector(
+      onTap: () => productController.pickerImage(),
+      child: Obx(
+        () => SizedBox(
+          width: size.width * 0.5,
+          child: productController.filesByte.isNotEmpty
+              ? SingleChildScrollView(
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: List.generate(
+                      productController.filesByte.length,
+                      (index) {
+                        return Stack(
+                          children: [
+                            Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                border: DashedBorder.all(
+                                  dashLength: 10,
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Image.memory(
+                                productController.filesByte[index],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () =>
+                                  productController.removeImage(index),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                )
+              : Container(
+                  width: size.width * 0.9,
+                  height: size.height * 0.3,
+                  decoration: BoxDecoration(
+                    border: DashedBorder.all(
+                      dashLength: 10,
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.upload_file, size: 80, color: Colors.grey),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Drag and drop or ",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            "Browse computer",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );

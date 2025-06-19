@@ -17,7 +17,7 @@ class CategoryScreen extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
-            columnSpacing: 180,
+            columnSpacing: 220,
             columns: List.generate(
               categoryController.headerTable.length,
               (index) => DataColumn(
@@ -42,17 +42,11 @@ class CategoryScreen extends StatelessWidget {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () {
-                              // TODO: implement edit action
-                              print('Edit row $rowIndex');
-                            },
+                            onPressed: () {},
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {
-                              // TODO: implement delete action
-                              print('Delete row $rowIndex');
-                            },
+                            onPressed: () {},
                           ),
                         ],
                       ),

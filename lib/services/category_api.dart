@@ -10,16 +10,8 @@ class CategoryApi {
     try {
       final token = TokenService().getToken();
       var url = Uri.parse("$baseUrl/categories");
-      var res = await http.get(
-        url,
-        headers: headers(token),
-        // {
-        //   "x-api-key": "my_super_secret_key",
-        //   "Authorization": "Bearer $token",
-        // },
-      );
+      var res = await http.get(url, headers: headers(token));
       developer.log("BrandRes: ${res.body}");
-
       if (res.statusCode == 200) {
         return CategoryResponse.fromJson(
           jsonDecode(res.body) as Map<String, dynamic>,

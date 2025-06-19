@@ -31,4 +31,24 @@ class ProductApi {
       return ProductResponse.empty();
     }
   }
+
+  Future<void> saveProduct(
+    String brandId,
+    String categoryId,
+    String productName,
+    String description,
+    String price,
+    String stock,
+  ) async {
+    final url = Uri.parse('$baseUrl/products');
+
+    final request = http.MultipartRequest('POST', url);
+
+    request.fields['brand'] = brandId;
+    request.fields['categoryId'] = categoryId;
+    request.fields['name'] = productName;
+    request.fields['description'] = description;
+    request.fields['price'] = price;
+    request.fields['stock'] = stock;
+  }
 }

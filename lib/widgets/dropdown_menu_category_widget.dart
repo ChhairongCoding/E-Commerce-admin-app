@@ -21,7 +21,7 @@ class DropdownMenuCategoryWidget extends StatelessWidget {
         const SizedBox(height: 8),
         Obx(() {
           final selectedBrand = categoryController.selectedCategory;
-          final brands = categoryController.CategoryRes.value.data;
+          final brands = categoryController.categoryRes.value.data;
           return categoryController.isLoading.value
               ? LinearProgressIndicator()
               : DropdownButtonFormField<Category>(

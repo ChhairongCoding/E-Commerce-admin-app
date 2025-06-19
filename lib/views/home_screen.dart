@@ -38,119 +38,23 @@ class HomeScreen extends StatelessWidget {
                 childAspectRatio: 2,
               ),
               itemCount: 3,
-              itemBuilder: (context, index) => buildCard(size),
+              itemBuilder: (context, index) => buildCard(size, index),
             ),
           ),
-
-          Expanded(child: ListView(children: [buildTable()])),
         ],
       ),
     );
   }
 
-  Column buildTable() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Top selling products", style: TextStyle(fontSize: 20)),
-        Column(
-          children: [
-            Divider(height: 30, thickness: 1),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    "SNO:01",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "Product Name",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "Brands",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "Stock",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "Price",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "Action",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            Divider(height: 30, thickness: 1),
-
-            Obx(() {
-              // final productRes = productController.productRes.value;
-              final products = productController.productRes.value.products;
-              return Column(
-                children: List.generate(products.length, (index) {
-                  if (index.isEven) {
-                    final product = products[index];
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Image.network(
-                            product.images.first.url ??
-                                "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-                            height: 50,
-                            width: 50,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            "${product.name}",
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Expanded(child: Text("${product.brand}")),
-                        Expanded(child: Text("${product.stock}")),
-                        Expanded(child: Text("\$${product.price}")),
-                        Expanded(
-                          child: Row(
-                            spacing: 10,
-                            children: [Text("Edit"), Text("Delete")],
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Divider(height: 30, thickness: 1);
-                  }
-                }),
-              );
-            }),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget buildCard(Size size) {
+  Widget buildCard(Size size, int index) {
     return Obx(() {
       final isDark = toggleModeController.isDarkMode.value;
-      final categoryCount = categoryController.CategoryRes;
+      final CategoryController categoryController = Get.put(
+        CategoryController(),
+      );
+      final ProductController productController = Get.put(ProductController());
+      final categoriesRes = categoryController.categoryRes();
+      final productsRes = productController.productRes();
       return Container(
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
@@ -168,7 +72,8 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$categoryCount",
+                  // Show only the category name for this card index
+                  "${categoriesRes.data.isNotEmpty && index < categoriesRes.data.length ? categoriesRes.data[index].name : ''}",
                   style: TextStyle(
                     fontSize: size.width < 1200 ? 35 : 55,
                     fontWeight: FontWeight.bold,
@@ -177,14 +82,14 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Total Categories",
+                  "Products",
                   style: TextStyle(
                     fontSize: size.width < 1200 ? 10 : 15,
                     color: isDark ? Color(0xff141218) : Colors.white60,
                   ),
                 ),
                 Text(
-                  "1",
+                  "${productsRes.data?.products.length}",
                   style: TextStyle(
                     fontSize: size.width < 1200 ? 20 : 30,
                     color: isDark ? Color(0xff141218) : Colors.white,
