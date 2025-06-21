@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                   // Show only the category name for this card index
                   "${categoriesRes.data.isNotEmpty && index < categoriesRes.data.length ? categoriesRes.data[index].name : ''}",
                   style: TextStyle(
-                    fontSize: size.width < 1200 ? 35 : 55,
+                    fontSize: size.width < 1200 ? 35 : 40,
                     fontWeight: FontWeight.bold,
                     height: 1,
                     color: isDark ? Color(0xff141218) : Colors.white,
@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   "Products",
                   style: TextStyle(
-                    fontSize: size.width < 1200 ? 10 : 15,
+                    fontSize: size.width < 1200 ? 15 : 20,
                     color: isDark ? Color(0xff141218) : Colors.white60,
                   ),
                 ),
@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   "This month",
                   style: TextStyle(
-                    fontSize: size.width < 1200 ? 10 : 15,
+                    fontSize: size.width < 1200 ? 15 : 20,
                     color: isDark ? Color(0xff141218) : Colors.white60,
                   ),
                 ),

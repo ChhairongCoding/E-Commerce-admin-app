@@ -122,10 +122,7 @@ class MainScreen extends StatelessWidget {
                                   label: Text("Sell"),
                                 ),
 
-                                NavigationRailDestination(
-                                  icon: Icon(Icons.edit),
-                                  label: Text("Edit"),
-                                ),
+                             
                               ],
                             ),
                           ),

@@ -38,6 +38,7 @@ class Category {
     required this.isActive,
     required this.createdBy,
     required this.createdAt,
+    required this.productCount,
   });
 
   final String? id;
@@ -47,16 +48,18 @@ class Category {
   final bool? isActive;
   final String? createdBy;
   final DateTime? createdAt;
+  final int productCount;
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      id: json["id"],
+      id: json["_id"],
       name: json["name"],
       description: json["description"],
       parenCategory: json["parenCategory"],
       isActive: json["isActive"],
       createdBy: json["createdBy"],
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      productCount: json["productCount"] ?? 0,
     );
   }
 
@@ -69,6 +72,7 @@ class Category {
       isActive: false,
       createdBy: '',
       createdAt: DateTime.now(),
+      productCount: 0,
     );
   }
 

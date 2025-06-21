@@ -16,21 +16,29 @@ class CategoryController extends GetxController {
     'Action',
   ];
 
-  List<List<dynamic>> rowsTable = [
-    ['1', 'Nike', '100', 'Active', 'Action'],
-    ['1', 'Nike', '100', 'Active', 'Action'],
-  ];
+  List<List<dynamic>> rowsTable = [];
 
   @override
   void onInit() {
     super.onInit();
-    getCategory();
+    getCategories();
   }
 
-  Future<void> getCategory() async {
+  Future<void> getCategories() async {
     isLoading(true);
     final data = await _categoryApi.getCategories();
     categoryRes.value = data;
+
+    rowsTable = data.data.map((category) {
+      return [
+        category.id.toString(),
+        category.name ?? 'N/A',
+        category.productCount.toString(),
+        (category.isActive ?? false) ? 'Active' : 'Inactive',
+        '',
+      ];
+    }).toList();
+    print("$rowsTable");
     isLoading(false);
   }
 

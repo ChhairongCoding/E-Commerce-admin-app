@@ -16,54 +16,50 @@ class CategoryScreen extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columnSpacing: 220,
-            columns: List.generate(
-              categoryController.headerTable.length,
-              (index) => DataColumn(
-                label: Text(
-                  categoryController.headerTable[index],
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            rows: List.generate(categoryController.rowsTable.length, (
-              rowIndex,
-            ) {
-              return DataRow(
-                cells: List.generate(categoryController.headerTable.length, (
-                  colIndex,
-                ) {
-                  // If this is the Action column
-                  if (categoryController.headerTable[colIndex].toLowerCase() ==
-                      'action') {
-                    return DataCell(
+          child: Obx(() {
+            final headers = categoryController.headerTable;
+            final categories = categoryController.categoryRes.value.data;
+
+            return DataTable(
+              columnSpacing: 160,
+              columns: headers
+                  .map(
+                    (header) => DataColumn(
+                      label: Text(
+                        header,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+              rows: List.generate(categories.length, (rowIndex) {
+                final category = categories[rowIndex];
+
+                return DataRow(
+                  cells: [
+                    DataCell(Text(category.id.toString())),
+                    DataCell(Text(category.name ?? 'N/A')),
+                    DataCell(Text(category.productCount.toString())),
+                    DataCell(
+                      Text(category.isActive == true ? 'Active' : 'Inactive'),
+                    ),
+                    const DataCell(
                       Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () {},
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {},
-                          ),
+                          Icon(Icons.edit, color: Colors.blue),
+                          SizedBox(width: 8),
+                          Icon(Icons.delete, color: Colors.red),
                         ],
                       ),
-                    );
-                  } else {
-                    // Regular data cell
-                    return DataCell(
-                      Text(
-                        categoryController.rowsTable[rowIndex][colIndex]
-                            .toString(),
-                      ),
-                    );
-                  }
-                }),
-              );
-            }),
-          ),
+                    ),
+                  ],
+                );
+              }),
+            );
+          }),
         ),
       ),
     );

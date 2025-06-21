@@ -5,7 +5,6 @@ import 'package:e_commerce_admin_app/views/brand_screen.dart';
 import 'package:e_commerce_admin_app/views/category-views/category_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
-import 'package:e_commerce_admin_app/views/update_add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +22,6 @@ class MainController extends GetxController {
     CategoryScreen(),
     BrandScreen(),
     SellScreen(),
-    UpdateAddScreen(),
   ];
 
   TokenService tokenService = TokenService();
