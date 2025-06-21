@@ -11,6 +11,7 @@ class ProductScreen extends StatelessWidget {
   final ProductController productController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
@@ -128,7 +129,7 @@ class ProductScreen extends StatelessWidget {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-              columnSpacing: 200,
+              columnSpacing: 70,
               columns: const [
                 DataColumn(
                   label: Text(
@@ -172,16 +173,27 @@ class ProductScreen extends StatelessWidget {
                 return DataRow(
                   cells: [
                     DataCell(Text("SNO: ${index + 1}")),
-                    DataCell(Text(product.name ?? '')),
+                    DataCell(Text(product.name  ?? '')),
                     DataCell(Text(product.brand?.name ?? '')),
                     DataCell(Text("${product.stock}")),
                     DataCell(Text("\$${product.price}")),
                     DataCell(
                       Row(
-                        children: const [
-                          Text("Edit"),
-                          SizedBox(width: 10),
-                          Text("Delete"),
+                        spacing: 8,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                             productController.onEditProductTap(product.id!);
+
+                            },
+                            label:Icon(HugeIcons.strokeRoundedEdit01),
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: () => productController.removeProduct(
+                              product.id.toString(),
+                            ),
+                            label: Icon(HugeIcons.strokeRoundedDelete01),
+                          ),
                         ],
                       ),
                     ),

@@ -36,6 +36,7 @@ class DropdownMenuBrandWidget extends StatelessWidget {
                   }).toList(),
                   onChanged: (Brand? value) {
                     brandController.toggleBrand(value ?? Brand.empty());
+                    print(value);
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(

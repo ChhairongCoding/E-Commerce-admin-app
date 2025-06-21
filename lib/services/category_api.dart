@@ -6,12 +6,14 @@ import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:http/http.dart' as http;
 
 class CategoryApi {
+
   Future<CategoryResponse> getCategories() async {
+  TokenService tokenService = TokenService();
+
     try {
-      final token = TokenService().getToken();
+      final token = tokenService.getToken();
       var url = Uri.parse("$baseUrl/categories");
       var res = await http.get(url, headers: headers(token));
-      developer.log("BrandRes: ${res.body}");
       if (res.statusCode == 200) {
         return CategoryResponse.fromJson(
           jsonDecode(res.body) as Map<String, dynamic>,
@@ -21,6 +23,10 @@ class CategoryApi {
         return CategoryResponse.empty();
       }
     } catch (e) {
+      developer.log(
+        "Error getCategory: $e",
+        name: "CategoryService.getCategories",
+      );
       return CategoryResponse.empty();
     }
   }

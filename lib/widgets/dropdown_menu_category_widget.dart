@@ -20,16 +20,16 @@ class DropdownMenuCategoryWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Obx(() {
-          final selectedBrand = categoryController.selectedCategory;
-          final brands = categoryController.categoryRes.value.data;
+          final selectedCategory = categoryController.selectedCategory;
+          final categories = categoryController.categoryRes.value.data;
           return categoryController.isLoading.value
               ? LinearProgressIndicator()
               : DropdownButtonFormField<Category>(
-                  value: brands.any((b) => b == selectedBrand.value)
-                      ? selectedBrand.value
+                  value: categories.any((b) => b == selectedCategory.value)
+                      ? selectedCategory.value
                       : null,
                   hint: const Text("Choose a Category"),
-                  items: brands.map((Category category) {
+                  items: categories.map((Category category) {
                     return DropdownMenuItem<Category>(
                       value: category,
                       child: Text(category.name ?? "No Category"),
@@ -39,6 +39,7 @@ class DropdownMenuCategoryWidget extends StatelessWidget {
                     categoryController.toggleCategory(
                       value ?? Category.empty(),
                     );
+                    print("cc $value");
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
