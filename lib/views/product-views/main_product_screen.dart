@@ -9,7 +9,7 @@ class MainProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MainProductController mainProductController = Get.put(MainProductController());
+    final MainProductController mainProductController = Get.find<MainProductController>();
     return Obx((){
       final currentIndex = mainProductController.currentIndex.value;
       return mainProductController.mainProducts[currentIndex];

@@ -12,102 +12,100 @@ class ProductScreen extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Products", style: TextStyle(fontSize: 30)),
-                  Row(
-                    spacing: 10,
-                    children: [
-                      GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white38),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(HugeIcons.strokeRoundedFileExport),
-                              SizedBox(width: 10),
-                              Text("Export"),
-                            ],
-                          ),
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Products", style: TextStyle(fontSize: 30)),
+                Row(
+                  spacing: 10,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        // TODO: Implement export functionality
+                      },
+                      icon: Icon(HugeIcons.strokeRoundedFileExport),
+                      label: Text("Export"),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white38),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(HugeIcons.strokeRoundedPrinter),
-                              SizedBox(width: 10),
-                              Text("Print"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.find<MainProductController>().toggleSwitch(1);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            border: Border.all(color: Colors.white38),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(HugeIcons.strokeRoundedAdd01),
-                              SizedBox(width: 10),
-                              Text("Create Product"),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 400,
-                    height: 50,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        hintText: "Search anything...",
-                        prefixIcon: Icon(HugeIcons.strokeRoundedSearch01),
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        side: BorderSide(color: Colors.white38),
+                        elevation: 0,
                       ),
                     ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        // TODO: Implement print functionality
+                      },
+                      icon: Icon(HugeIcons.strokeRoundedPrinter),
+                      label: Text("Print"),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        side: BorderSide(color: Colors.white38),
+                        elevation: 0,
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                    
+                      icon: Icon(HugeIcons.strokeRoundedAdd01),
+                      label: Text("Create Product"),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.blueAccent,
+                        foregroundColor: Colors.white,
+                        side: BorderSide(color: Colors.white38),
+                        elevation: 0,
+                      ),
+                        onPressed: () {
+                        Get.find<MainProductController>().toggleSwitch(1);
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 400,
+                  height: 50,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      hintText: "Search anything...",
+                      prefixIcon: Icon(HugeIcons.strokeRoundedSearch01),
+                    ),
                   ),
-                ],
-              ),
-              SizedBox(height: 15),
-              Divider(height: 1, thickness: 1.1),
-              SizedBox(height: 15),
-              Expanded(child: ListView(children: [buildTable()])),
-            ],
-          ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Divider(height: 1, thickness: 1.1),
+            SizedBox(height: 15),
+            Expanded(child: ListView(children: [buildTable()])),
+          ],
         ),
       ),
     );
