@@ -2,14 +2,16 @@ class BrandResponse {
   BrandResponse({this.success, required this.data});
 
   final bool? success;
-  final List<Brand> data;
+  final List<BrandModel> data;
 
   factory BrandResponse.fromJson(Map<String, dynamic> json) {
     return BrandResponse(
       success: json["success"],
       data: json["data"] == null
           ? []
-          : List<Brand>.from(json["data"]!.map((x) => Brand.fromJson(x))),
+          : List<BrandModel>.from(
+              json["data"]!.map((x) => BrandModel.fromJson(x)),
+            ),
     );
   }
 
@@ -23,16 +25,7 @@ class BrandResponse {
   }
 }
 
-class Brand {
-  Brand({
-    required this.id,
-    required this.name,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.totalProducts,
-  });
-
+class BrandModel {
   final String? id;
   final String? name;
   final bool? isActive;
@@ -40,29 +33,43 @@ class Brand {
   final DateTime? updatedAt;
   final int? totalProducts;
 
-  factory Brand.fromJson(Map<String, dynamic> json) {
-    return Brand(
-      id: json["_id"],
-      name: json["name"],
-      isActive: json["isActive"],
-      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      totalProducts: json["totalProducts"],
+  BrandModel({
+    this.id,
+    this.name,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
+    this.totalProducts,
+  });
+
+  factory BrandModel.fromJson(Map<String, dynamic> json) {
+    return BrandModel(
+      id: json['_id'] as String?,
+      name: json['name'] as String?,
+      isActive: json['isActive'] as bool?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.tryParse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.tryParse(json['updatedAt'] as String),
+      totalProducts: json['totalProducts'] as int?,
     );
   }
-  factory Brand.empty() {
-    return Brand(
-      id: '',
-      name: '',
-      isActive: false,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      totalProducts: 0,
-    );
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+      'isActive': isActive,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+      'totalProducts': totalProducts,
+    };
   }
 
   @override
   String toString() {
-    return "$id, $name, $isActive, $createdAt, $updatedAt, $totalProducts, ";
+    return 'BrandModel(id: $id, name: $name, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, totalProducts: $totalProducts)';
   }
 }

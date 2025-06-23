@@ -6,7 +6,7 @@ class CategoryController extends GetxController {
   Rx<CategoryResponse> categoryRes = CategoryResponse.empty().obs;
   final isLoading = false.obs;
   final CategoryApi _categoryApi = CategoryApi();
-  Rx<Category> selectedCategory = Category.empty().obs;
+  Rx<CategoryModel> selectedCategory = CategoryModel().obs;
 
   List<String> headerTable = [
     'ID',
@@ -33,7 +33,7 @@ class CategoryController extends GetxController {
       return [
         category.id.toString(),
         category.name ?? 'N/A',
-        category.productCount.toString(),
+        // category.productCount.toString(),
         (category.isActive ?? false) ? 'Active' : 'Inactive',
         '',
       ];
@@ -42,7 +42,11 @@ class CategoryController extends GetxController {
     isLoading(false);
   }
 
-  void toggleCategory(Category category) {
+  void toggleCategory(CategoryModel category) {
     selectedCategory.value = category;
   }
+
+  // void clearSelection() {
+  //   selectedCategory.value = CategoryModel();
+  // }
 }

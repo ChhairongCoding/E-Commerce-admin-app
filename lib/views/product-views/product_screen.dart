@@ -11,7 +11,6 @@ class ProductScreen extends StatelessWidget {
   final ProductController productController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
@@ -173,7 +172,7 @@ class ProductScreen extends StatelessWidget {
                 return DataRow(
                   cells: [
                     DataCell(Text("SNO: ${index + 1}")),
-                    DataCell(Text(product.name  ?? '')),
+                    DataCell(Text(product.name ?? '')),
                     DataCell(Text(product.brand?.name ?? '')),
                     DataCell(Text("${product.stock}")),
                     DataCell(Text("\$${product.price}")),
@@ -183,10 +182,9 @@ class ProductScreen extends StatelessWidget {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () {
-                             productController.onEditProductTap(product.id!);
-
+                              productController.onEditProductTap(product.id!);
                             },
-                            label:Icon(HugeIcons.strokeRoundedEdit01),
+                            label: Icon(HugeIcons.strokeRoundedEdit01),
                           ),
                           ElevatedButton.icon(
                             onPressed: () => productController.removeProduct(

@@ -1,15 +1,19 @@
 import 'package:e_commerce_admin_app/controllers/category_controller.dart';
+import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/instance_manager.dart';
 
 class DropdownMenuCategoryWidget extends StatelessWidget {
-  const DropdownMenuCategoryWidget({super.key});
+  final bool isUpdate;
+  const DropdownMenuCategoryWidget({super.key, this.isUpdate = false});
 
   @override
   Widget build(BuildContext context) {
-    final CategoryController categoryController = Get.put(CategoryController());
+    final CategoryController categoryController =
+        Get.find<CategoryController>();
+    final ProductController productController = Get.find<ProductController>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,26 +24,48 @@ class DropdownMenuCategoryWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Obx(() {
-          final selectedCategory = categoryController.selectedCategory;
-          final categories = categoryController.categoryRes.value.data;
+          final categories = categoryController.categoryRes.value.data ?? [];
+          final currentCategoryId = productController.categoryId.value;
+
+          if (categoryController.isLoading.value) {
+            return const LinearProgressIndicator();
+          }
+
+          CategoryModel? initialValue;
+          if (isUpdate && currentCategoryId != null) {
+            initialValue = categories.firstWhere(
+              (b) => b.id == currentCategoryId,
+              orElse: () => CategoryModel(), // Default to empty BrandModel
+            );
+            // Sync selectedBrand only if different
+            if (categoryController.selectedCategory.value.id !=
+                initialValue.id) {
+              categoryController.toggleCategory(initialValue);
+            }
+          } else {
+            initialValue = categoryController.selectedCategory.value;
+          }
+
           return categoryController.isLoading.value
               ? LinearProgressIndicator()
-              : DropdownButtonFormField<Category>(
-                  value: categories.any((b) => b == selectedCategory.value)
-                      ? selectedCategory.value
+              : DropdownButtonFormField<CategoryModel>(
+                  value:
+                      initialValue.id != null &&
+                          categories.any((b) => b.id == initialValue!.id)
+                      ? categories.firstWhere((b) => b.id == initialValue!.id)
                       : null,
                   hint: const Text("Choose a Category"),
-                  items: categories.map((Category category) {
-                    return DropdownMenuItem<Category>(
+                  items: categories.map((CategoryModel category) {
+                    return DropdownMenuItem<CategoryModel>(
                       value: category,
                       child: Text(category.name ?? "No Category"),
                     );
                   }).toList(),
-                  onChanged: (Category? value) {
-                    categoryController.toggleCategory(
-                      value ?? Category.empty(),
-                    );
-                    print("cc $value");
+                  onChanged: (CategoryModel? value) {
+                    if (value != null) {
+                      categoryController.toggleCategory(value);
+                      productController.categoryId.value = value.id;
+                    }
                   },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
