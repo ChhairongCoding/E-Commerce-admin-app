@@ -82,6 +82,7 @@ class ProductApi {
       if (res.statusCode == 200 || res.statusCode == 201) {
         developer.log('✅ Product created');
         Get.snackbar('Add product', "Add Product is successfully!");
+         Get.find<MainProductController>().toggleSwitch(0);
       } else {
         developer.log('❌ Failed: ${res.body}');
       }
