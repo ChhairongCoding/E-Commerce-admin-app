@@ -1,12 +1,6 @@
-import 'package:e_commerce_admin_app/controllers/category_controller.dart';
-import 'package:e_commerce_admin_app/controllers/home_controller.dart';
-import 'package:e_commerce_admin_app/controllers/main_controller.dart';
-import 'package:e_commerce_admin_app/controllers/product_controller.dart';
-import 'package:e_commerce_admin_app/controllers/sign_in_controller.dart';
-import 'package:e_commerce_admin_app/controllers/sign_up_controller.dart';
+
+import 'package:e_commerce_admin_app/binding/init_binding.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
-import 'package:e_commerce_admin_app/controllers/update_add_controller.dart';
-import 'package:e_commerce_admin_app/services/auth_api.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:e_commerce_admin_app/views/product-views/product_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
@@ -23,16 +17,7 @@ import 'package:get_storage/get_storage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  Get.put(AuthApi());
-  Get.put(MainController());
-  Get.put(HomeController());
-  Get.put(ProductController());
-  Get.put(ToggleModeController());
-  Get.put(SignInController());
-  Get.put(SignUpController());
-  Get.put(TokenService());
-  Get.put(UpdateAddController());
-  Get.put(CategoryController());
+
 
   runApp(MyApp());
 }
@@ -45,14 +30,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final ToggleModeController toggleModeController = Get.find();
+
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => GetMaterialApp(
+        initialBinding: InitBinding(),
         title: 'E-commerce Admin App',
-        theme: toggleModeController.currentTheme,
+        theme: Get.put(ToggleModeController()).currentTheme,
         initialRoute: "/",
         getPages: [
           GetPage(name: "/", page: () => RootScreen()),

@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
 import 'package:e_commerce_admin_app/controllers/category_controller.dart';
-import 'package:e_commerce_admin_app/models/brand_model.dart';
+import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/models/product_model.dart';
 import 'package:e_commerce_admin_app/services/product_api.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
@@ -10,19 +11,29 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:file_picker/file_picker.dart';
 
+import '../models/brand_model.dart' show BrandModel, BrandResponse;
+
 class ProductController extends GetxController {
+  //controller
+  final brandController = Get.put(BrandResponse.empty());
+  final categoryController = Get.find<CategoryController>();
+
+  RxnString brandId = RxnString();
+  RxnString categoryId = RxnString();
   final isLoading = false.obs;
   final formKey = GlobalKey<FormState>();
   final productApi = ProductApi();
-  final brandController = Get.put(BrandResponse.empty());
-  final categoryController = Get.find<CategoryController>();
 
   Rx<ProductResponse> productRes = Rx(ProductResponse.empty());
   RxBool isSaved = false.obs;
 
   // ✅ Use Rx<Product?> for a single product update
   Rx<Product?> selectedProduct = Rx<Product?>(null);
+
   final RxList<Uint8List> filesByte = <Uint8List>[].obs;
+  final RxList<String> imageUrls = <String>[].obs;
+
+  final Rx<BrandModel?> getBrand = Rx<BrandModel?>(null);
 
   @override
   void onInit() {
@@ -108,23 +119,29 @@ class ProductController extends GetxController {
     }
   }
 
-  /// ✅ When user taps to edit a product
-  Future<void> onEditProductTap(String id) async {
-    final products = productRes.value.data?.products;
+  /// ✅ On Edit Product Tap
+  void onEditProductTap(String id) {
+    final product = productRes.value.data?.products.firstWhere(
+      (e) => e.id == id,
+      orElse: () => Product.empty(),
+    );
 
-    if (products == null || products.isEmpty) {
-      Get.snackbar('Error', 'No products available');
-      return;
+    if (product != null && product.id != null) {
+      selectedProduct.value = product;
+      brandId.value = product.brand?.id;
+      categoryId.value = product.categoryId?.id;
+
+      // ✅ Set image URLs for display
+      imageUrls.value = product.images.map((img) => img.url ?? '').toList();
+
+      if (product.brand != null) {
+        Get.find<BrandController>().toggleBrand(product.brand!);
+      }
+      if (product.categoryId != null) {
+        Get.find<CategoryController>().toggleCategory(product.categoryId!);
+      }
+
+      Get.find<MainProductController>().toggleSwitch(2);
     }
-
-    final product = products.firstWhere((p) => p.id == id);
-
-    selectedProduct.value = product;
-
-    print("Editing product: ${product}");
-
-    // Navigate to update form
-    Get.find<MainProductController>().toggleSwitch(2);
-
   }
 }

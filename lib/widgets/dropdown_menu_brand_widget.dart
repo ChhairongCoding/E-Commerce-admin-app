@@ -1,15 +1,19 @@
 import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
+import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/models/brand_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 
 class DropdownMenuBrandWidget extends StatelessWidget {
-  const DropdownMenuBrandWidget({super.key});
+  final bool isUpdate;
+
+  const DropdownMenuBrandWidget({super.key, this.isUpdate = false});
 
   @override
   Widget build(BuildContext context) {
-    final BrandController brandController = Get.put(BrandController());
+    final BrandController brandController = Get.find<BrandController>();
+    final ProductController productController = Get.find<ProductController>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,35 +23,57 @@ class DropdownMenuBrandWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Obx(() {
-          final selectedBrand = brandController.selectedBrand;
-          final brands = brandController.brandRes.value.data;
-          return brandController.isLoading.value
-              ? LinearProgressIndicator()
-              : DropdownButtonFormField<Brand>(
-                  value: brands.any((b) => b == selectedBrand.value)
-                      ? selectedBrand.value
-                      : null,
-                  hint: const Text("Choose a brand"),
-                  items: brands.map((Brand brand) {
-                    return DropdownMenuItem<Brand>(
-                      value: brand,
-                      child: Text(brand.name ?? "No Brand"),
-                    );
-                  }).toList(),
-                  onChanged: (Brand? value) {
-                    brandController.toggleBrand(value ?? Brand.empty());
-                    print(value);
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 10,
-                    ),
-                  ),
-                );
+          final brands = brandController.brandRes.value.data ?? [];
+          final currentBrandId = productController.brandId.value;
+
+          if (brandController.isLoading.value) {
+            return const LinearProgressIndicator();
+          }
+
+          BrandModel? initialValue;
+          if (isUpdate && currentBrandId != null) {
+            initialValue = brands.firstWhere(
+              (b) => b.id == currentBrandId,
+              orElse: () => BrandModel(), // Default to empty BrandModel
+            );
+            // Sync selectedBrand only if different
+            if (brandController.selectedBrand.value.id != initialValue.id) {
+              brandController.toggleBrand(initialValue);
+            }
+          } else {
+            initialValue = brandController.selectedBrand.value;
+          }
+
+          // Log for debugging
+          print('Dropdown initialValue: $initialValue');
+
+          return DropdownButtonFormField<BrandModel>(
+            value: initialValue.id != null && brands.any((b) => b.id == initialValue!.id)
+                ? brands.firstWhere((b) => b.id == initialValue!.id )
+                : null,
+            hint: const Text("Choose a brand"),
+            items: brands.map((BrandModel brand) {
+              return DropdownMenuItem<BrandModel>(
+                value: brand,
+                child: Text(brand.name ?? ''),
+              );
+            }).toList(),
+            onChanged: (BrandModel? value) {
+              if (value != null) {
+                brandController.toggleBrand(value);
+                productController.brandId.value = value.id;
+              }
+            },
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
+              ),
+            ),
+          );
         }),
       ],
     );

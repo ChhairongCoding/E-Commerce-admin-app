@@ -21,8 +21,6 @@ class UpdateProductFormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProductController productController = Get.find();
     final product = productController.selectedProduct.value;
-
-    // Set initial values for editing
     productNameController.text = product?.name ?? '';
     descritionController.text = product?.description ?? '';
     priceController.text = product?.price.toString() ?? '';
@@ -168,8 +166,41 @@ class UpdateProductFormScreen extends StatelessWidget {
                             spacing: 8,
                             runSpacing: 8,
                             children: [
-                              Obx(
-                                () => productController.isSaved.value
+                              Obx(() {
+                                return productController.imageUrls.isNotEmpty
+                                    ? Wrap(
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: List.generate(
+                                          productController.imageUrls.length,
+                                          (index) {
+                                            return Stack(
+                                              children: [
+                                                Container(
+                                                  width: 120,
+                                                  height: 120,
+                                                  decoration: BoxDecoration(
+                                                    border: DashedBorder.all(
+                                                      dashLength: 10,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          8,
+                                                        ),
+                                                  ),
+                                                  child: Image.network(
+                                                    productController
+                                                        .imageUrls[index],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    : productController.filesByte.isNotEmpty
                                     ? Wrap(
                                         spacing: 10,
                                         runSpacing: 10,
@@ -197,11 +228,18 @@ class UpdateProductFormScreen extends StatelessWidget {
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
-                                                IconButton(
-                                                  icon: Icon(Icons.close),
-                                                  onPressed: () =>
-                                                      productController
-                                                          .removeImage(index),
+                                                Positioned(
+                                                  top: 0,
+                                                  right: 0,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      Icons.close,
+                                                      size: 20,
+                                                    ),
+                                                    onPressed: () =>
+                                                        productController
+                                                            .removeImage(index),
+                                                  ),
                                                 ),
                                               ],
                                             );
@@ -225,8 +263,8 @@ class UpdateProductFormScreen extends StatelessWidget {
                                           size: 40,
                                           color: Colors.grey[600],
                                         ),
-                                      ),
-                              ),
+                                      );
+                              }),
                             ],
                           ),
                           SizedBox(height: 8),

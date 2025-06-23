@@ -1,12 +1,14 @@
+import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/models/brand_model.dart';
 import 'package:e_commerce_admin_app/services/brand_service.dart';
 import 'package:get/get.dart';
-
 class BrandController extends GetxController {
+  final ProductController productController = Get.find<ProductController>();
+
   Rx<BrandResponse> brandRes = BrandResponse.empty().obs;
   final isLoading = false.obs;
   final BrandService _brandService = BrandService();
-  Rx<Brand> selectedBrand = Brand.empty().obs;
+  Rx<BrandModel> selectedBrand = BrandModel().obs;
   @override
   void onInit() {
     super.onInit();
@@ -20,7 +22,7 @@ class BrandController extends GetxController {
     isLoading(false);
   }
 
-  void toggleBrand(Brand brand) {
+  void toggleBrand(BrandModel brand) {
     selectedBrand.value = brand;
   }
 }

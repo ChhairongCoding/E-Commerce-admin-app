@@ -1,3 +1,7 @@
+import 'package:e_commerce_admin_app/models/category_model.dart';
+
+import 'brand_model.dart';
+
 class ProductResponse {
   ProductResponse({required this.success, required this.data});
 
@@ -46,29 +50,28 @@ class Data {
 
 class Product {
   Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.categoryId,
-    required this.brand,
-    required this.stock,
-    required this.ratings,
+    this.id,
+    this.name,
+    this.description,
+    this.price,
+    this.categoryId,
+    this.brand,
+    this.stock,
+    this.ratings,
     required this.images,
-    required this.createdBy,
-    required this.isActive,
+    this.createdBy,
+    this.isActive,
     required this.reviews,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
-
   final String? id;
   final String? name;
   final String? description;
   final int? price;
-  final Brand? categoryId;
-  final Brand? brand;
+  final CategoryModel? categoryId;
+  final BrandModel? brand;
   final int? stock;
   final int? ratings;
   final List<Image> images;
@@ -79,6 +82,42 @@ class Product {
   final DateTime? updatedAt;
   final int? v;
 
+  Product copyWith({
+    String? id,
+    String? name,
+    String? description,
+    int? price,
+    CategoryModel? categoryId,
+    BrandModel? brand,
+    int? stock,
+    int? ratings,
+    List<Image>? images,
+    String? createdBy,
+    bool? isActive,
+    List<dynamic>? reviews,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? v,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      categoryId: categoryId ?? this.categoryId,
+      brand: brand ?? this.brand,
+      stock: stock ?? this.stock,
+      ratings: ratings ?? this.ratings,
+      images: images ?? this.images,
+      createdBy: createdBy ?? this.createdBy,
+      isActive: isActive ?? this.isActive,
+      reviews: reviews ?? this.reviews,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      v: v ?? this.v,
+    );
+  }
+
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json["_id"],
@@ -87,8 +126,8 @@ class Product {
       price: json["price"],
       categoryId: json["categoryId"] == null
           ? null
-          : Brand.fromJson(json["categoryId"]),
-      brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
+          : CategoryModel.fromJson(json["categoryId"]), // ✅ FIXED HERE
+      brand: json["brand"] == null ? null : BrandModel.fromJson(json["brand"]),
       stock: json["stock"],
       ratings: json["ratings"],
       images: json["images"] == null
@@ -128,22 +167,6 @@ class Product {
       updatedAt: DateTime.now(),
       v: 0,
     );
-  }
-}
-
-class Brand {
-  Brand({required this.id, required this.name});
-
-  final String? id;
-  final String? name;
-
-  factory Brand.fromJson(Map<String, dynamic> json) {
-    return Brand(id: json["_id"], name: json["name"]);
-  }
-
-  @override
-  String toString() {
-    return "$id, $name, ";
   }
 }
 

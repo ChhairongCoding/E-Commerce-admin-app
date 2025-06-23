@@ -7,7 +7,7 @@ class CategoryResponse {
 
   final bool? success;
   final int? count;
-  final List<Category> data;
+  final List<CategoryModel> data;
 
   factory CategoryResponse.fromJson(Map<String, dynamic> json) {
     return CategoryResponse(
@@ -15,7 +15,7 @@ class CategoryResponse {
       count: json["count"],
       data: json["data"] == null
           ? []
-          : List<Category>.from(json["data"]!.map((x) => Category.fromJson(x))),
+          : List<CategoryModel>.from(json["data"]!.map((x) => CategoryModel.fromJson(x))),
     );
   }
 
@@ -28,56 +28,55 @@ class CategoryResponse {
     return CategoryResponse(data: [], success: null, count: null);
   }
 }
-
-class Category {
-  Category({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.parenCategory,
-    required this.isActive,
-    required this.createdBy,
-    required this.createdAt,
-    required this.productCount,
-  });
-
+class CategoryModel {
   final String? id;
   final String? name;
   final String? description;
-  final dynamic parenCategory;
+  // This can be typed to another CategoryModel? if it's self-referential
+  final dynamic parentCategory;
   final bool? isActive;
-  final String? createdBy;
   final DateTime? createdAt;
-  final int productCount;
+  final DateTime? updatedAt;
+  final int? totalProducts;
 
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      id: json["_id"],
-      name: json["name"],
-      description: json["description"],
-      parenCategory: json["parenCategory"],
-      isActive: json["isActive"],
-      createdBy: json["createdBy"],
-      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      productCount: json["productCount"] ?? 0,
+  CategoryModel({
+    this.id,
+    this.name,
+    this.description,
+    this.parentCategory,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
+    this.totalProducts,
+  });
+
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    return CategoryModel(
+      id: json['_id'] as String?,
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      parentCategory: json['parentCategory'], // Stays dynamic to accept null or object
+      isActive: json['isActive'] as bool?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.tryParse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.tryParse(json['updatedAt'] as String),
+      totalProducts: json['totalProducts'] as int?,
     );
   }
 
-  factory Category.empty() {
-    return Category(
-      id: '',
-      name: '',
-      description: '',
-      parenCategory: '',
-      isActive: false,
-      createdBy: '',
-      createdAt: DateTime.now(),
-      productCount: 0,
-    );
-  }
-
-  @override
-  String toString() {
-    return "$id, $name, $description, $parenCategory, $isActive, $createdBy, $createdAt, ";
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+      'description': description,
+      'parentCategory': parentCategory,
+      'isActive': isActive,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+      'totalProducts': totalProducts,
+    };
   }
 }
