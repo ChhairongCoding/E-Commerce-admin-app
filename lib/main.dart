@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:e_commerce_admin_app/binding/init_binding.dart';
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
@@ -14,11 +16,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-
-
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
 

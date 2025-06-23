@@ -43,7 +43,7 @@ class CategoryScreen extends StatelessWidget {
                   cells: [
                     DataCell(Text(category.id.toString())),
                     DataCell(Text(category.name ?? 'N/A')),
-                    // DataCell(Text(category.productCount.toString())),
+                    DataCell(Text(category.productCount.toString())),
                     DataCell(
                       Text(category.isActive == true ? 'Active' : 'Inactive'),
                     ),

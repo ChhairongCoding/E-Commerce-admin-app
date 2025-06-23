@@ -107,7 +107,7 @@ class UpdateProductFormScreen extends StatelessWidget {
                                 elevation: 4,
                               ),
                               child: Text(
-                                "Add",
+                                "Update",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -136,15 +136,16 @@ class UpdateProductFormScreen extends StatelessWidget {
 
                                 if (controller.formKey.currentState!
                                     .validate()) {
-                                  controller.saveProduct(
-                                    brandId: brandId,
-                                    categoryId: categoryId,
-                                    productName: name,
-                                    description: description,
-                                    price: price,
-                                    stock: stock,
+                                  controller.updateProduct(
+                                    product!.id.toString(),
+                                    brandId,
+                                    categoryId,
+                                    name,
+                                    description,
+                                    price,
+                                    stock,
                                   );
-                                  Get.back();
+
                                 }
                               },
                             ),

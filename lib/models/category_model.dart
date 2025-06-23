@@ -15,7 +15,9 @@ class CategoryResponse {
       count: json["count"],
       data: json["data"] == null
           ? []
-          : List<CategoryModel>.from(json["data"]!.map((x) => CategoryModel.fromJson(x))),
+          : List<CategoryModel>.from(
+              json["data"]!.map((x) => CategoryModel.fromJson(x)),
+            ),
     );
   }
 
@@ -28,6 +30,7 @@ class CategoryResponse {
     return CategoryResponse(data: [], success: null, count: null);
   }
 }
+
 class CategoryModel {
   final String? id;
   final String? name;
@@ -38,6 +41,7 @@ class CategoryModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? totalProducts;
+  final int? productCount;
 
   CategoryModel({
     this.id,
@@ -48,6 +52,7 @@ class CategoryModel {
     this.createdAt,
     this.updatedAt,
     this.totalProducts,
+    this.productCount,
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
@@ -55,7 +60,8 @@ class CategoryModel {
       id: json['_id'] as String?,
       name: json['name'] as String?,
       description: json['description'] as String?,
-      parentCategory: json['parentCategory'], // Stays dynamic to accept null or object
+      parentCategory:
+          json['parentCategory'], // Stays dynamic to accept null or object
       isActive: json['isActive'] as bool?,
       createdAt: json['createdAt'] == null
           ? null
@@ -64,6 +70,9 @@ class CategoryModel {
           ? null
           : DateTime.tryParse(json['updatedAt'] as String),
       totalProducts: json['totalProducts'] as int?,
+      productCount: json['productCount'] is int
+          ? json['productCount'] as int
+          : 0,
     );
   }
 

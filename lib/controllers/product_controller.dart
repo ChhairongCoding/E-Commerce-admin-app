@@ -7,6 +7,7 @@ import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/models/product_model.dart';
 import 'package:e_commerce_admin_app/services/product_api.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:file_picker/file_picker.dart';
@@ -133,7 +134,7 @@ class ProductController extends GetxController {
 
       // ✅ Set image URLs for display
       imageUrls.value = product.images.map((img) => img.url ?? '').toList();
-
+      print(" check image ${product.images}");
       if (product.brand != null) {
         Get.find<BrandController>().toggleBrand(product.brand!);
       }
@@ -144,4 +145,49 @@ class ProductController extends GetxController {
       Get.find<MainProductController>().toggleSwitch(2);
     }
   }
+
+  void updateProduct(
+  String productId,
+  String? brandId,
+  String? categoryId,
+  String? productName,
+  String? description,
+  String? price,
+  String? stock,
+) async {
+  try {
+    await productApi.updateProduct(
+      productId: productId,
+      brandId: brandId,
+      categoryId: categoryId,
+      productName: productName,
+      description: description,
+      price: price,
+      stock: stock,
+    );
+
+    // ✅ Switch back to main product list
+    Get.find<MainProductController>().toggleSwitch(0);
+
+    // ✅ Refresh the list to reflect updated product
+    getProducts();
+
+    // Optional success snackbar
+    Get.snackbar(
+      "Success!",
+      "Product updated successfully.",
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: const Color(0xff012B43),
+      colorText: Colors.white,
+    );
+  } catch (e) {
+    Get.snackbar(
+      "Error",
+      "Failed to update product: $e",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.redAccent,
+      colorText: Colors.white,
+    );
+  }
+}
 }

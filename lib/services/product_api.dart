@@ -4,7 +4,8 @@ import 'dart:typed_data';
 import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/product_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
-import 'package:e_commerce_admin_app/views/category-views/category_screen.dart';
+import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
+import 'package:e_commerce_admin_app/views/product-views/main_product_screen.dart';
 import 'package:e_commerce_admin_app/views/product-views/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -135,8 +136,8 @@ class ProductApi {
     String? stock,
   }) async {
     final url = Uri.parse('$baseUrl/products/$productId');
+    final token = tokenService.getToken();
 
-    // Only include non-null fields
     final Map<String, dynamic> updateData = {};
     if (brandId != null) updateData['brand'] = brandId;
     if (categoryId != null) updateData['categoryId'] = categoryId;
@@ -147,30 +148,34 @@ class ProductApi {
 
     try {
       Get.dialog(
-        Center(child: CircularProgressIndicator()),
+        const Center(child: CircularProgressIndicator()),
         barrierDismissible: false,
       );
+
       final response = await http.put(
         url,
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': 'my_super_secret_key',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(updateData),
       );
-      Get.back();
+
+      Get.back(); // Close dialog
 
       if (response.statusCode == 200) {
-        print('Product updated successfully');
         Get.snackbar(
           "Success!",
-          "Update product successfully!",
+          "Product updated successfully!",
           snackPosition: SnackPosition.TOP,
-          backgroundColor: Color(0xff012B43),
+          backgroundColor: const Color(0xff012B43),
           colorText: Colors.white,
-          duration: Duration(seconds: 10),
+          duration: const Duration(seconds: 5),
         );
-        Get.to(CategoryScreen());
+
+        /// ⬇️ Go back to main product list view
+        Get.find<MainProductController>().toggleSwitch(0);
       } else {
         print('Failed to update product: ${response.statusCode}');
         print('Response body: ${response.body}');

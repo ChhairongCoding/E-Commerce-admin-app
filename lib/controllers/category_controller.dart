@@ -6,7 +6,7 @@ class CategoryController extends GetxController {
   Rx<CategoryResponse> categoryRes = CategoryResponse.empty().obs;
   final isLoading = false.obs;
   final CategoryApi _categoryApi = CategoryApi();
-  Rx<CategoryModel> selectedCategory = CategoryModel().obs;
+  Rx<CategoryModel> selectedCategory = CategoryModel(productCount: 0).obs;
 
   List<String> headerTable = [
     'ID',
@@ -38,7 +38,6 @@ class CategoryController extends GetxController {
         '',
       ];
     }).toList();
-    print("$rowsTable");
     isLoading(false);
   }
 

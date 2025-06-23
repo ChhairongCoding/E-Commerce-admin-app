@@ -35,7 +35,7 @@ class DropdownMenuCategoryWidget extends StatelessWidget {
           if (isUpdate && currentCategoryId != null) {
             initialValue = categories.firstWhere(
               (b) => b.id == currentCategoryId,
-              orElse: () => CategoryModel(), // Default to empty BrandModel
+              orElse: () => CategoryModel(), // Default to empty CategoryModel
             );
             // Sync selectedBrand only if different
             if (categoryController.selectedCategory.value.id !=
