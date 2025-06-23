@@ -17,7 +17,6 @@ class MainController extends GetxController {
 
   final List<Widget> listPage = [
     HomeScreen(),
-    //   ProductScreen(),
     MainProductScreen(),
     CategoryScreen(),
     BrandScreen(),
