@@ -36,7 +36,7 @@ class CategoryModel {
   final String? name;
   final String? description;
   // This can be typed to another CategoryModel? if it's self-referential
-  final dynamic parentCategory;
+  // final dynamic parentCategory;
   final bool? isActive;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -47,7 +47,7 @@ class CategoryModel {
     this.id,
     this.name,
     this.description,
-    this.parentCategory,
+    // this.parentCategory,
     this.isActive,
     this.createdAt,
     this.updatedAt,
@@ -60,8 +60,8 @@ class CategoryModel {
       id: json['_id'] as String?,
       name: json['name'] as String?,
       description: json['description'] as String?,
-      parentCategory:
-          json['parentCategory'], // Stays dynamic to accept null or object
+      // parentCategory:
+      //     json['parentCategory'], // Stays dynamic to accept null or object
       isActive: json['isActive'] as bool?,
       createdAt: json['createdAt'] == null
           ? null
@@ -81,7 +81,7 @@ class CategoryModel {
       '_id': id,
       'name': name,
       'description': description,
-      'parentCategory': parentCategory,
+      // 'parentCategory': parentCategory,
       'isActive': isActive,
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
