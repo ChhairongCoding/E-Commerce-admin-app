@@ -60,12 +60,9 @@ class ProductController extends GetxController {
       for (var file in result.files) {
         if (file.bytes != null) {
           filesByte.add(file.bytes!);
-          print("Image added: ${file.name}");
         }
       }
-    } else {
-      print('No file selected.');
-    }
+    } 
   }
 
   void removeImage(int index) {
@@ -132,7 +129,7 @@ class ProductController extends GetxController {
 
       // ✅ Set image URLs for display
       imageUrls.value = product.images.map((img) => img.url ?? '').toList();
-      print(" check image ${product.images}");
+     
       if (product.brand != null) {
         Get.find<BrandController>().toggleBrand(product.brand!);
       }

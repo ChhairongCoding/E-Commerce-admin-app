@@ -177,11 +177,11 @@ class ProductApi {
         /// ⬇️ Go back to main product list view
         Get.find<MainProductController>().toggleSwitch(0);
       } else {
-        print('Failed to update product: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        log('Failed to update product: ${response.statusCode}');
+        log('Response body: ${response.body}');
       }
     } catch (e) {
-      print('Error: $e');
+      log('Error: $e');
     }
   }
 }

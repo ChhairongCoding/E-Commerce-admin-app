@@ -29,7 +29,7 @@ class AddCategoryFormScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: categoryController.isLoading.value
           ? Center(child: CircularProgressIndicator())
-          : Container(
+          : SizedBox(
               child: Form(
                 key: formKey,
                 child: Column(
@@ -63,8 +63,9 @@ class AddCategoryFormScreen extends StatelessWidget {
                             hintText: "Enter Category Name",
                             label: "Category Name",
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty) {
                                 return "Please enter a category name";
+                              }
                               return null;
                             },
                           ),
@@ -74,8 +75,9 @@ class AddCategoryFormScreen extends StatelessWidget {
                             label: "Description",
                             maxLines: 4,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty) {
                                 return "Please enter a description";
+                              }
                               return null;
                             },
                           ),

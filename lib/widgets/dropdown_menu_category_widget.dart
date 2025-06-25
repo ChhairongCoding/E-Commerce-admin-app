@@ -24,7 +24,7 @@ class DropdownMenuCategoryWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Obx(() {
-          final categories = categoryController.categoryRes.value.data ?? [];
+          final categories = categoryController.categoryRes.value.data;
           final currentCategoryId = productController.categoryId.value;
 
           if (categoryController.isLoading.value) {

@@ -72,7 +72,7 @@ class CategoryApi {
         developer.log('✅ Category created');
         Get.snackbar('Add Category', "Add Category is successfully!");
         Get.find<MainCategoryController>().toggleSwitch(0);
-        print(res.body);
+
       } else {
         Get.snackbar('Add Category', "Add Category is Error!");
 
@@ -185,11 +185,11 @@ class CategoryApi {
         /// ⬇️ Go back to main product list view
         Get.find<MainCategoryController>().toggleSwitch(0);
       } else {
-        print('Failed to add category: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        developer.log('Failed to add category: ${response.statusCode}');
+        developer.log('Response body: ${response.body}');
       }
     } catch (e) {
-      print('Error: $e');
+      developer.log('Error: $e');
     }
   }
 
@@ -230,11 +230,11 @@ class CategoryApi {
         /// ⬇️ Go back to main product list view
         Get.find<MainCategoryController>().toggleSwitch(0);
       } else {
-        print('Failed to update category : ${res.statusCode}');
-        print('Response body: ${res.body}');
+        developer.log('Failed to update category : ${res.statusCode}');
+        developer.log('Response body: ${res.body}');
       }
     } catch (e) {
-      print('Error: $e');
+      developer.log('Error: $e');
     }
   }
 }
