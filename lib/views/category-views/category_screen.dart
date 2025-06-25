@@ -75,7 +75,6 @@ class CategoryScreen extends StatelessWidget {
                       ),
                       onPressed: () {
                         Get.find<MainCategoryController>().toggleSwitch(1);
-                        
                       },
                     ),
                   ],
@@ -121,11 +120,15 @@ class CategoryScreen extends StatelessWidget {
                             spacing: 8,
                             children: [
                               ElevatedButton.icon(
-                                onPressed: () {},
+                                onPressed: () => {
+                                  categoryController.onEditCategoryTap(category.id!)
+                                },
                                 label: Icon(HugeIcons.strokeRoundedEdit01),
                               ),
                               ElevatedButton.icon(
-                                onPressed: () {},
+                                onPressed: () {
+                                  categoryController.removeCategory(category.id.toString());
+                                },
                                 label: Icon(HugeIcons.strokeRoundedDelete01),
                               ),
                             ],

@@ -1,13 +1,18 @@
 import 'package:e_commerce_admin_app/models/category_model.dart';
 import 'package:e_commerce_admin_app/services/category_api.dart';
+import 'package:e_commerce_admin_app/views/category-views/main_category_controller.dart';
 import 'package:get/get.dart';
 import 'dart:developer' as developer;
 
 class CategoryController extends GetxController {
-  Rx<CategoryResponse> categoryRes = CategoryResponse.empty().obs;
   final isLoading = false.obs;
-  final CategoryApi _categoryApi = CategoryApi();
-  Rx<CategoryModel> selectedCategory = CategoryModel(productCount: 0).obs;
+  final isUpdate = false.obs;
+  final updateId ="".obs;
+  
+  final CategoryApi categoryApi = CategoryApi();
+  Rx<CategoryModel> selectedCategory = CategoryModel().obs;
+  Rx<CategoryResponse> categoryRes = CategoryResponse.empty().obs;
+
 
   List<String> headerTable = [
     'ID',
@@ -27,7 +32,7 @@ class CategoryController extends GetxController {
 
   Future<void> getCategories() async {
     isLoading(true);
-    final data = await _categoryApi.getCategories();
+    final data = await categoryApi.getCategories();
     categoryRes.value = data;
 
     rowsTable = data.data.map((category) {
@@ -54,22 +59,49 @@ class CategoryController extends GetxController {
   ) async {
     try {
       isLoading(true);
-      await _categoryApi.saveCategory(
+      await categoryApi.saveCategory(
         name: name,
         description: description,
-        parentCategory: parentCategory,
+        // parentCategory: parentCategory,
         isActive: isActive,
       );
       isLoading(false);
-      Get.snackbar('Success', 'Category saved successfully');
       getCategories();
     } catch (e) {
-      Get.snackbar('Save Failed', 'Category save failed ');
       developer.log("Category error: $e");
     }
+    isLoading(false);
   }
 
-  // void clearSelection() {
-  //   selectedCategory.value = CategoryModel();
-  // }
+  void removeCategory (String id){
+    updateId(id);
+    isLoading(true);
+    categoryApi.removeCategory(id);
+    final categories = categoryRes.value.data;
+    categories.removeWhere((p) => p.id == id);
+    categoryRes.refresh();
+    isLoading(false);
+
+  }
+
+
+  void onEditCategoryTap(String id){
+     final category = categoryRes.value.data.firstWhere(
+      (e) => e.id == id,
+      orElse: () => CategoryModel(),
+    );
+
+    if(category.id != null){
+      selectedCategory.value = category;
+    }
+      
+    isUpdate(true);
+    Get.find<MainCategoryController>().toggleSwitch(1); 
+  }
+
+  void updateCategory(String id,String name,String description,bool isActive) {
+    isLoading(true);
+    categoryApi.updateCategory(id, name, description, isActive);
+    isLoading(false);
+  }
 }

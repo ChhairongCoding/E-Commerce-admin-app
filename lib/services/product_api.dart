@@ -5,7 +5,6 @@ import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/product_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
-import 'package:e_commerce_admin_app/views/product-views/main_product_screen.dart';
 import 'package:e_commerce_admin_app/views/product-views/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
