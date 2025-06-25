@@ -4,7 +4,7 @@ import 'package:e_commerce_admin_app/views/category-views/main_category_controll
 import 'package:e_commerce_admin_app/views/category-views/main_category_screen.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_screen.dart';
-import 'package:e_commerce_admin_app/views/brand_screen.dart';
+import 'package:e_commerce_admin_app/views/brand-views/brand_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
 import 'package:flutter/material.dart';

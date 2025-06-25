@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
 import 'package:e_commerce_admin_app/controllers/product_controller.dart';
 import 'package:e_commerce_admin_app/models/brand_model.dart';
@@ -23,7 +25,7 @@ class DropdownMenuBrandWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Obx(() {
-          final brands = brandController.brandRes.value.data ?? [];
+          final brands = brandController.brandRes.value.data;
           final currentBrandId = productController.brandId.value;
 
           if (brandController.isLoading.value) {
@@ -45,7 +47,7 @@ class DropdownMenuBrandWidget extends StatelessWidget {
           }
 
           // Log for debugging
-          print('Dropdown initialValue: $initialValue');
+          log('Dropdown initialValue: $initialValue');
 
           return DropdownButtonFormField<BrandModel>(
             value: initialValue.id != null && brands.any((b) => b.id == initialValue!.id)

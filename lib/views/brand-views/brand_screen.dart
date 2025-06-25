@@ -1,12 +1,11 @@
-import 'package:e_commerce_admin_app/controllers/category_controller.dart';
-import 'package:e_commerce_admin_app/views/category-views/main_category_controller.dart';
+import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class CategoryScreen extends StatelessWidget {
-  CategoryScreen({super.key});
-  final CategoryController categoryController = Get.put(CategoryController());
+class BrandScreen extends StatelessWidget {
+  BrandScreen({super.key});
+  final BrandController brandController = Get.put(BrandController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +16,17 @@ class CategoryScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
-          spacing: 15,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Categories", style: TextStyle(fontSize: 30)),
+                Text("Brands", style: TextStyle(fontSize: 30)),
                 Row(
-                  spacing: 10,
                   children: [
                     ElevatedButton.icon(
                       onPressed: () {
-                   
+                        // Export functionality here
                       },
                       icon: Icon(HugeIcons.strokeRoundedFileExport),
                       label: Text("Export"),
@@ -43,9 +41,10 @@ class CategoryScreen extends StatelessWidget {
                         elevation: 0,
                       ),
                     ),
+                    SizedBox(width: 10),
                     ElevatedButton.icon(
                       onPressed: () {
-                      
+                        // Print functionality here
                       },
                       icon: Icon(HugeIcons.strokeRoundedPrinter),
                       label: Text("Print"),
@@ -60,9 +59,10 @@ class CategoryScreen extends StatelessWidget {
                         elevation: 0,
                       ),
                     ),
+                    SizedBox(width: 10),
                     ElevatedButton.icon(
                       icon: Icon(HugeIcons.strokeRoundedAdd01),
-                      label: Text("Create Category"),
+                      label: Text("Create Brand"),
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(10),
                         shape: RoundedRectangleBorder(
@@ -74,21 +74,22 @@ class CategoryScreen extends StatelessWidget {
                         elevation: 0,
                       ),
                       onPressed: () {
-                        Get.find<MainCategoryController>().toggleSwitch(1);
+                        // Get.find<MainBrandController>().toggleSwitch(1);
                       },
                     ),
                   ],
                 ),
               ],
             ),
+            SizedBox(height: 15),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Obx(() {
-                final headers = categoryController.headerTable;
-                final categories = categoryController.categoryRes.value.data;
+                final headers = brandController.headerTable;
+                final brands = brandController.brandRes.value.data;
 
                 return DataTable(
-                  columnSpacing: 140,
+                  columnSpacing: 210,
                   columns: headers
                       .map(
                         (header) => DataColumn(
@@ -102,32 +103,27 @@ class CategoryScreen extends StatelessWidget {
                         ),
                       )
                       .toList(),
-                  rows: List.generate(categories.length, (rowIndex) {
-                    final category = categories[rowIndex];
+                  rows: List.generate(brands.length, (rowIndex) {
+                    final brand = brands[rowIndex];
 
                     return DataRow(
                       cells: [
                         DataCell(Text("ID ${rowIndex + 1}")),
-                        DataCell(Text(category.name ?? 'N/A')),
-                        DataCell(Text(category.productCount.toString())),
-                        DataCell(
-                          Text(
-                            category.isActive == true ? 'Active' : 'Inactive',
-                          ),
-                        ),
+                        DataCell(Text(brand.name ?? 'N/A')),
+                        DataCell(Text(brand.totalProducts.toString())),
                         DataCell(
                           Row(
-                            spacing: 8,
                             children: [
                               ElevatedButton.icon(
-                                onPressed: () => {
-                                  categoryController.onEditCategoryTap(category.id!)
+                                onPressed: () {
+                                  // brandController.onEditBrandTap(brand.id!);
                                 },
                                 label: Icon(HugeIcons.strokeRoundedEdit01),
                               ),
+                              SizedBox(width: 8),
                               ElevatedButton.icon(
                                 onPressed: () {
-                                  categoryController.removeCategory(category.id.toString());
+                                  // brandController.removeBrand(brand.id.toString());
                                 },
                                 label: Icon(HugeIcons.strokeRoundedDelete01),
                               ),

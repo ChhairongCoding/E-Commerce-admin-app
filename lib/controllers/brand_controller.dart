@@ -15,6 +15,14 @@ class BrandController extends GetxController {
     getBrands();
   }
 
+  
+  List<String> headerTable = [
+    'ID',
+    'Brandd Name',
+    'Product Count',
+    'Action',
+  ];
+
   Future<void> getBrands() async {
     isLoading(true);
     final data = await _brandService.getBrands();
