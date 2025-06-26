@@ -28,6 +28,8 @@ class BrandResponse {
 class BrandModel {
   final String? id;
   final String? name;
+  final String? description;
+  final String? image;
   final bool? isActive;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -36,6 +38,8 @@ class BrandModel {
   BrandModel({
     this.id,
     this.name,
+    this.description,
+    this.image,
     this.isActive,
     this.createdAt,
     this.updatedAt,
@@ -46,6 +50,8 @@ class BrandModel {
     return BrandModel(
       id: json['_id'] as String?,
       name: json['name'] as String?,
+      description: json['description'] as String?,
+      image: json["image"],
       isActive: json['isActive'] as bool?,
       createdAt: json['createdAt'] == null
           ? null
@@ -61,6 +67,7 @@ class BrandModel {
     return {
       '_id': id,
       'name': name,
+      'description': description,
       'isActive': isActive,
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),

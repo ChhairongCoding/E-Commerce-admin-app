@@ -5,7 +5,6 @@ import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/product_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
-import 'package:e_commerce_admin_app/views/product-views/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -119,7 +118,7 @@ class ProductApi {
           colorText: Colors.white,
           duration: Duration(seconds: 10),
         );
-        Get.to(ProductScreen());
+        Get.find<MainProductController>().toggleSwitch(0);
       } else {
         developer.log("Product delete error: ${res.statusCode}");
       }

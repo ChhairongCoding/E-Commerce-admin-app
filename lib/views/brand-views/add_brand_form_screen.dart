@@ -13,6 +13,13 @@ class AddBrandFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BrandController brandController = Get.put(BrandController());
+    final brand = brandController.selectedBrand.value;
+    final RxBool isActive = true.obs;
+
+    // Populate fields when editing
+    if (brandController.isUpdate.value) {
+      brandNameController.text = brand.name ?? '';
+    }
 
     return SingleChildScrollView(
       child: SizedBox(
@@ -39,10 +46,13 @@ class AddBrandFormScreen extends StatelessWidget {
                               brandNameController.text = '';
                               descriptionController.text = '';
                               brandController.filesByte.clear();
+                              brandController.isUpdate(false);
                             },
                           ),
                           Text(
-                            "Create Brand",
+                            brandController.isUpdate.value
+                                ? "Update Brand"
+                                : "Create Brand",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -63,18 +73,14 @@ class AddBrandFormScreen extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 20),
-
-                      /// Description Field
-                      CustomTextfieldWidget(
-                        controller: descriptionController,
-                        hintText: "Enter Description",
-                        label: "Description",
-                        maxLines: 4,
-                        validator: (value) {
-                          if (value!.isEmpty) return "Please enter description";
-                          return null;
-                        },
+                      Obx(
+                        () => SwitchListTile(
+                          title: Text("Is Active"),
+                          value: isActive.value,
+                          onChanged: (val) => isActive.value = val,
+                        ),
                       ),
+
                       SizedBox(height: 30),
 
                       /// Submit Button
@@ -89,7 +95,9 @@ class AddBrandFormScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            "Add Brand",
+                            brandController.isUpdate.value
+                                ? "Update Brand"
+                                : "Add Brand",
                             style: TextStyle(fontSize: 18),
                           ),
                           onPressed: () async {
@@ -102,18 +110,40 @@ class AddBrandFormScreen extends StatelessWidget {
 
                             if (brandController.formKey.currentState!
                                 .validate()) {
-                              if (image != null) {
-                                brandController.addBrand(
-                                  brandName,
-                                  description,
-                                  image,
-                                );
-
-                                brandNameController.text = '';
-                                descriptionController.text = '';
-                                brandController.filesByte.clear();
+                              if (brandController.isUpdate.value) {
+                                // Update brand
+                                if (image != null || brand.image != null) {
+                                  await brandController.updateBrand(
+                                    brandName,
+                                    description,
+                                    image,
+                                  );
+                                  brandNameController.text = '';
+                                  descriptionController.text = '';
+                                  brandController.filesByte.clear();
+                                } else {
+                                  Get.snackbar(
+                                    "Error",
+                                    "Please select an image or ensure an existing image is available",
+                                  );
+                                }
                               } else {
-                                Get.snackbar("Error", "Please select an image");
+                                // Add brand
+                                if (image != null) {
+                                  brandController.addBrand(
+                                    brandName,
+                                    isActive.value,
+                                    image,
+                                  );
+                                  brandNameController.text = '';
+                                  descriptionController.text = '';
+                                  brandController.filesByte.clear();
+                                } else {
+                                  Get.snackbar(
+                                    "Error",
+                                    "Please select an image",
+                                  );
+                                }
                               }
                             }
                           },
@@ -164,10 +194,45 @@ class AddBrandFormScreen extends StatelessWidget {
                                   ),
                                 ],
                               )
+                            : brandController.isUpdate.value &&
+                                  brand.image != null
+                            ? Stack(
+                                children: [
+                                  Container(
+                                    width: 180,
+                                    height: 180,
+                                    decoration: BoxDecoration(
+                                      border: DashedBorder.all(
+                                        dashLength: 10,
+                                        color: Colors.grey,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Image.network(
+                                      brand.image!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) => Icon(
+                                            Icons.broken_image,
+                                            size: 60,
+                                            color: Colors.grey,
+                                          ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        brandController.filesByte.clear();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
                             : GestureDetector(
-                                onTap: () {
-                                  () => brandController.pickerImage();
-                                },
+                                onTap: () => brandController.pickerImage(),
                                 child: Container(
                                   width: 200,
                                   height: 200,
@@ -191,7 +256,7 @@ class AddBrandFormScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () => brandController.pickerImage(),
-                        child: Text("Chose image"),
+                        child: Text("Choose image"),
                       ),
                     ],
                   ),

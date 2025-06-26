@@ -16,8 +16,7 @@ class AddCategoryFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CategoryController categoryController =
-        Get.find<CategoryController>();
+    final CategoryController categoryController = Get.find<CategoryController>();
     final category = categoryController.selectedCategory.value;
 
     if (categoryController.isUpdate.value) {
@@ -39,8 +38,8 @@ class AddCategoryFormScreen extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             Get.find<MainCategoryController>().toggleSwitch(0);
-                              categoryNameController.text ='';
-                                  categoryDescriptionController.text ='';
+                            categoryNameController.text = '';
+                            categoryDescriptionController.text = '';
                           },
                           icon: Icon(HugeIcons.strokeRoundedArrowLeft01),
                         ),
@@ -131,8 +130,8 @@ class AddCategoryFormScreen extends StatelessWidget {
                                         );
 
                                   // Get.back();
-                                  categoryNameController.text ='';
-                                  categoryDescriptionController.text ='';
+                                  categoryNameController.text = '';
+                                  categoryDescriptionController.text = '';
                                 }
                               },
                             ),
