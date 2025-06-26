@@ -15,7 +15,7 @@ class AddProductFormScreen extends StatelessWidget {
   final productNameController = TextEditingController();
   final descritionController = TextEditingController();
   final priceController = TextEditingController();
-  
+
   final stockController = TextEditingController();
 
   @override
@@ -33,6 +33,11 @@ class AddProductFormScreen extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       Get.find<MainProductController>().toggleSwitch(0);
+                      productNameController.text = '';
+                      descritionController.text = '';
+                      priceController.text = '';
+                      stockController.text = '';
+                      productController.filesByte.clear();
                     },
                     icon: Icon(HugeIcons.strokeRoundedArrowLeft01),
                   ),
@@ -109,24 +114,28 @@ class AddProductFormScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                final controller = Get.find<ProductController>();
+                                final controller =
+                                    Get.find<ProductController>();
                                 final brandId = Get.find<BrandController>()
                                     .selectedBrand
                                     .value
                                     .id
                                     .toString();
-                                final categoryId = Get.find<CategoryController>()
-                                    .selectedCategory
-                                    .value
-                                    .id
-                                    .toString();
+                                final categoryId =
+                                    Get.find<CategoryController>()
+                                        .selectedCategory
+                                        .value
+                                        .id
+                                        .toString();
 
                                 final name = productNameController.text.trim();
-                                final description = descritionController.text.trim();
+                                final description = descritionController.text
+                                    .trim();
                                 final price = priceController.text.trim();
                                 final stock = stockController.text.trim();
-      
-                                if (controller.formKey.currentState!.validate()) {
+
+                                if (controller.formKey.currentState!
+                                    .validate()) {
                                   controller.saveProduct(
                                     brandId: brandId,
                                     categoryId: categoryId,
@@ -135,7 +144,12 @@ class AddProductFormScreen extends StatelessWidget {
                                     price: price,
                                     stock: stock,
                                   );
-                                  Get.back();
+                                  // Get.back();
+                                  productNameController.text = '';
+                                  descritionController.text = '';
+                                  priceController.text = '';
+                                  stockController.text = '';
+                                  productController.filesByte.clear();
                                 }
                               },
                             ),
@@ -176,7 +190,9 @@ class AddProductFormScreen extends StatelessWidget {
                                                       color: Colors.grey,
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.circular(8),
+                                                        BorderRadius.circular(
+                                                          8,
+                                                        ),
                                                   ),
                                                   child: Image.memory(
                                                     productController
@@ -200,8 +216,12 @@ class AddProductFormScreen extends StatelessWidget {
                                         height: 200,
                                         decoration: BoxDecoration(
                                           color: Colors.grey[300],
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border.all(color: Colors.grey),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                          ),
                                         ),
                                         child: Icon(
                                           Icons.image,

@@ -5,6 +5,7 @@ import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
 import 'package:e_commerce_admin_app/core/constand.dart';
 import 'package:e_commerce_admin_app/models/brand_model.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
+import 'package:e_commerce_admin_app/views/brand-views/main_brand_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -65,6 +66,7 @@ class BrandService {
       if (res.statusCode == 200 || res.statusCode == 201) {
         Get.back(); // Close the dialog
         Get.snackbar('Add Brand', "Add Brand is successfully!");
+        Get.find<MainBrandController>().toggleSwitch(0);
         // Refresh brands in BrandController
         if (Get.isRegistered<BrandController>()) {
           await Get.find<BrandController>().refreshBrands();

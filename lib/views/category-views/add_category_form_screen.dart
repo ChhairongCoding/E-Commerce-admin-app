@@ -39,6 +39,8 @@ class AddCategoryFormScreen extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             Get.find<MainCategoryController>().toggleSwitch(0);
+                              categoryNameController.text ='';
+                                  categoryDescriptionController.text ='';
                           },
                           icon: Icon(HugeIcons.strokeRoundedArrowLeft01),
                         ),
@@ -128,7 +130,9 @@ class AddCategoryFormScreen extends StatelessWidget {
                                           isActive.value,
                                         );
 
-                                  Get.back();
+                                  // Get.back();
+                                  categoryNameController.text ='';
+                                  categoryDescriptionController.text ='';
                                 }
                               },
                             ),
