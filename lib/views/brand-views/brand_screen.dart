@@ -117,14 +117,18 @@ class BrandScreen extends StatelessWidget {
                             children: [
                               ElevatedButton.icon(
                                 onPressed: () {
-                                  // brandController.onEditBrandTap(brand.id!);
+                                  brandController.onEditBrandTap(brand.id!);
+
                                 },
                                 label: Icon(HugeIcons.strokeRoundedEdit01),
                               ),
                               SizedBox(width: 8),
                               ElevatedButton.icon(
-                                onPressed: () {
-                                  // brandController.removeBrand(brand.id.toString());
+                                onPressed: () async {
+                                  await brandController.removeBrand(
+                                    brand.id.toString(),
+                                  );
+                                  Get.back();
                                 },
                                 label: Icon(HugeIcons.strokeRoundedDelete01),
                               ),
