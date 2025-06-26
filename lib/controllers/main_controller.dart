@@ -1,10 +1,11 @@
 import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
+import 'package:e_commerce_admin_app/views/brand-views/main_brand_controller.dart';
+import 'package:e_commerce_admin_app/views/brand-views/main_brand_screen.dart';
 import 'package:e_commerce_admin_app/views/category-views/main_category_controller.dart';
 import 'package:e_commerce_admin_app/views/category-views/main_category_screen.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_screen.dart';
-import 'package:e_commerce_admin_app/views/brand-views/brand_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/sell_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class MainController extends GetxController {
     HomeScreen(),
     MainProductScreen(),
     MainCategoryScreen(),
-    BrandScreen(),
+    MainBrandScreen(),
     SellScreen(),
   ];
 
@@ -46,6 +47,8 @@ class MainController extends GetxController {
     }
     else if(index == 2){
       Get.find<MainCategoryController>().toggleSwitch(0);
+    }else if(index == 3){
+      Get.find<MainBrandController>().toggleSwitch(0);
     }
   }
 

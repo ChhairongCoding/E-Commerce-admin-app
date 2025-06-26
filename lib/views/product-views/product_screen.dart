@@ -83,24 +83,24 @@ class ProductScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 400,
-                  height: 50,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      hintText: "Search anything...",
-                      prefixIcon: Icon(HugeIcons.strokeRoundedSearch01),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     SizedBox(
+            //       width: 400,
+            //       height: 50,
+            //       child: TextField(
+            //         decoration: InputDecoration(
+            //           border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(15),
+            //           ),
+            //           hintText: "Search anything...",
+            //           prefixIcon: Icon(HugeIcons.strokeRoundedSearch01),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(height: 15),
             Divider(height: 1, thickness: 1.1),
             SizedBox(height: 15),

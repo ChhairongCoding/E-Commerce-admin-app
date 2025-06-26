@@ -27,9 +27,7 @@ class CategoryScreen extends StatelessWidget {
                   spacing: 10,
                   children: [
                     ElevatedButton.icon(
-                      onPressed: () {
-                   
-                      },
+                      onPressed: () {},
                       icon: Icon(HugeIcons.strokeRoundedFileExport),
                       label: Text("Export"),
                       style: ElevatedButton.styleFrom(
@@ -44,9 +42,7 @@ class CategoryScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () {
-                      
-                      },
+                      onPressed: () {},
                       icon: Icon(HugeIcons.strokeRoundedPrinter),
                       label: Text("Print"),
                       style: ElevatedButton.styleFrom(
@@ -86,6 +82,9 @@ class CategoryScreen extends StatelessWidget {
               child: Obx(() {
                 final headers = categoryController.headerTable;
                 final categories = categoryController.categoryRes.value.data;
+                if (categoryController.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                }
 
                 return DataTable(
                   columnSpacing: 140,
@@ -121,13 +120,17 @@ class CategoryScreen extends StatelessWidget {
                             children: [
                               ElevatedButton.icon(
                                 onPressed: () => {
-                                  categoryController.onEditCategoryTap(category.id!)
+                                  categoryController.onEditCategoryTap(
+                                    category.id!,
+                                  ),
                                 },
                                 label: Icon(HugeIcons.strokeRoundedEdit01),
                               ),
                               ElevatedButton.icon(
                                 onPressed: () {
-                                  categoryController.removeCategory(category.id.toString());
+                                  categoryController.removeCategory(
+                                    category.id.toString(),
+                                  );
                                 },
                                 label: Icon(HugeIcons.strokeRoundedDelete01),
                               ),
