@@ -9,6 +9,7 @@ import 'package:e_commerce_admin_app/controllers/toggle_mode_controller.dart';
 import 'package:e_commerce_admin_app/controllers/update_add_controller.dart';
 import 'package:e_commerce_admin_app/services/auth_api.dart';
 import 'package:e_commerce_admin_app/services/local/token_service.dart';
+import 'package:e_commerce_admin_app/views/brand-views/main_brand_controller.dart';
 import 'package:e_commerce_admin_app/views/category-views/main_category_controller.dart';
 import 'package:e_commerce_admin_app/views/product-views/main_product_controller.dart';
 import 'package:get/get.dart';
@@ -32,5 +33,6 @@ class InitBinding extends Bindings {
     Get.put(CategoryController());
     Get.put(MainProductController());
     Get.put(MainCategoryController());
+    Get.put(MainBrandController());
   }
 }

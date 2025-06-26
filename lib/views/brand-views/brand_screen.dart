@@ -1,4 +1,5 @@
 import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
+import 'package:e_commerce_admin_app/views/brand-views/main_brand_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -74,7 +75,7 @@ class BrandScreen extends StatelessWidget {
                         elevation: 0,
                       ),
                       onPressed: () {
-                        // Get.find<MainBrandController>().toggleSwitch(1);
+                        Get.find<MainBrandController>().toggleSwitch(1);
                       },
                     ),
                   ],

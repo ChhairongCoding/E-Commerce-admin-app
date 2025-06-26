@@ -47,6 +47,11 @@ class ProductApi {
     required String stock,
     required List<Uint8List> images,
   }) async {
+
+    Get.dialog(
+        Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
     final url = Uri.parse('$baseUrl/products');
     final request = http.MultipartRequest('POST', url);
     final token = tokenService.getToken();
@@ -72,10 +77,7 @@ class ProductApi {
       );
     }
     try {
-      Get.dialog(
-        Center(child: CircularProgressIndicator()),
-        barrierDismissible: false,
-      );
+      
       final response = await request.send();
       final res = await http.Response.fromStream(response);
       if (res.statusCode == 200 || res.statusCode == 201) {
