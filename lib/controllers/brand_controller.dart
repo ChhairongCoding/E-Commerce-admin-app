@@ -28,7 +28,7 @@ class BrandController extends GetxController {
 
   Future<void> pickerImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
+      allowMultiple: false,
       withData: true,
       type: FileType.image,
     );
@@ -40,6 +40,10 @@ class BrandController extends GetxController {
         }
       }
     }
+  }
+
+  void removeImage(int index) {
+    filesByte.removeAt(index);
   }
 
   Future<void> refreshBrands() async {

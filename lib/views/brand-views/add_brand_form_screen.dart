@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:e_commerce_admin_app/controllers/brand_controller.dart';
 import 'package:e_commerce_admin_app/views/brand-views/main_brand_controller.dart';
 import 'package:e_commerce_admin_app/widgets/custom_textfield_widget.dart';
@@ -17,7 +15,7 @@ class AddBrandFormScreen extends StatelessWidget {
     final BrandController brandController = Get.put(BrandController());
 
     return SingleChildScrollView(
-      child: Container(
+      child: SizedBox(
         child: Form(
           key: brandController.formKey,
           child: Padding(
@@ -38,6 +36,9 @@ class AddBrandFormScreen extends StatelessWidget {
                             icon: Icon(Icons.arrow_back_ios_new),
                             onPressed: () {
                               Get.find<MainBrandController>().toggleSwitch(0);
+                              brandNameController.text = '';
+                              descriptionController.text = '';
+                              brandController.filesByte.clear();
                             },
                           ),
                           Text(
@@ -91,20 +92,29 @@ class AddBrandFormScreen extends StatelessWidget {
                             "Add Brand",
                             style: TextStyle(fontSize: 18),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             final brandName = brandNameController.text.trim();
                             final description = descriptionController.text
                                 .trim();
-                            final image = brandController.imageBytes;
+                            final image = brandController.filesByte.isNotEmpty
+                                ? brandController.filesByte.first
+                                : null;
 
                             if (brandController.formKey.currentState!
                                 .validate()) {
-                              brandController.addBrand(
-                                brandName,
-                                description,
-                                image as Uint8List,
-                              );
-                              Get.back();
+                              if (image != null) {
+                                brandController.addBrand(
+                                  brandName,
+                                  description,
+                                  image,
+                                );
+
+                                brandNameController.text = '';
+                                descriptionController.text = '';
+                                brandController.filesByte.clear();
+                              } else {
+                                Get.snackbar("Error", "Please select an image");
+                              }
                             }
                           },
                         ),
@@ -124,7 +134,7 @@ class AddBrandFormScreen extends StatelessWidget {
                       SizedBox(height: 16),
 
                       Obx(
-                        () => brandController.imageBytes.isNotEmpty
+                        () => brandController.filesByte.isNotEmpty
                             ? Stack(
                                 children: [
                                   Container(
@@ -138,7 +148,7 @@ class AddBrandFormScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Image.memory(
-                                      brandController.imageBytes.first,
+                                      brandController.filesByte.first,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -148,7 +158,7 @@ class AddBrandFormScreen extends StatelessWidget {
                                     child: IconButton(
                                       icon: Icon(Icons.close),
                                       onPressed: () {
-                                        // => brandController.clearImage()
+                                        brandController.removeImage(0);
                                       },
                                     ),
                                   ),
@@ -156,7 +166,7 @@ class AddBrandFormScreen extends StatelessWidget {
                               )
                             : GestureDetector(
                                 onTap: () {
-                                  // => brandController.pickImage()
+                                  () => brandController.pickerImage();
                                 },
                                 child: Container(
                                   width: 200,
@@ -178,6 +188,10 @@ class AddBrandFormScreen extends StatelessWidget {
                       Text(
                         "You can upload 1 logo image.",
                         style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => brandController.pickerImage(),
+                        child: Text("Chose image"),
                       ),
                     ],
                   ),
