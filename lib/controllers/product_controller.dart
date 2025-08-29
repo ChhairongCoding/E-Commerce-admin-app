@@ -46,6 +46,7 @@ class ProductController extends GetxController {
     final res = await productApi.fetchAllProducts();
     productRes.value = res;
     isLoading(false);
+    log(res.toString());
   }
 
   /// ✅ Image picker logic
@@ -62,7 +63,7 @@ class ProductController extends GetxController {
           filesByte.add(file.bytes!);
         }
       }
-    } 
+    }
   }
 
   void removeImage(int index) {
@@ -106,9 +107,7 @@ class ProductController extends GetxController {
       final products = productRes.value.data?.products;
       products?.removeWhere((p) => p.id == id);
       productRes.refresh();
-      Get.snackbar('Success', 'Product deleted successfully');
     } catch (e) {
-      Get.snackbar('Error', 'Failed to delete product');
       log('Error while deleting product: $e');
     } finally {
       isLoading(false);
@@ -129,7 +128,7 @@ class ProductController extends GetxController {
 
       // ✅ Set image URLs for display
       imageUrls.value = product.images.map((img) => img.url ?? '').toList();
-     
+
       if (product.brand != null) {
         Get.find<BrandController>().toggleBrand(product.brand!);
       }

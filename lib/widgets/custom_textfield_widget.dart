@@ -6,6 +6,7 @@ class CustomTextfieldWidget extends StatelessWidget {
   final String? label;
   final String? Function(String?)? validator;
   final int? maxLines;
+  final bool? isObsecureText;
   const CustomTextfieldWidget({
     super.key,
     this.hintText,
@@ -13,6 +14,7 @@ class CustomTextfieldWidget extends StatelessWidget {
     this.label,
     this.validator,
     this.maxLines,
+    this.isObsecureText ,
   });
 
   @override
@@ -34,6 +36,7 @@ class CustomTextfieldWidget extends StatelessWidget {
             fillColor: Colors.transparent,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
           ),
+          obscureText: isObsecureText != true ? false : true,
           maxLines: maxLines,
           validator:
               validator ??

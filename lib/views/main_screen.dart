@@ -40,7 +40,7 @@ class MainScreen extends StatelessWidget {
                             height: 110,
                             child: Center(
                               child: Text(
-                                "SlowKey",
+                                "SlowKits Dashboard",
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
@@ -117,10 +117,7 @@ class MainScreen extends StatelessWidget {
                                   icon: Icon(HugeIcons.strokeRoundedBrandfetch),
                                   label: Text("Brand"),
                                 ),
-                                NavigationRailDestination(
-                                  icon: Icon(FontAwesomeIcons.sellcast),
-                                  label: Text("Sell"),
-                                ),
+                              
 
                              
                               ],

@@ -7,7 +7,6 @@ import 'package:e_commerce_admin_app/services/local/token_service.dart';
 import 'package:e_commerce_admin_app/views/product-views/product_screen.dart';
 import 'package:e_commerce_admin_app/views/home_screen.dart';
 import 'package:e_commerce_admin_app/views/main_screen.dart';
-import 'package:e_commerce_admin_app/views/sell_screen.dart';
 import 'package:e_commerce_admin_app/views/show_terms_privacy_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_in_screen.dart';
 import 'package:e_commerce_admin_app/views/sign_up_screen.dart';
@@ -52,7 +51,6 @@ class _MyAppState extends State<MyApp> {
           GetPage(name: "/", page: () => RootScreen()),
           GetPage(name: "/home", page: () => HomeScreen()),
           GetPage(name: "/product", page: () => ProductScreen()),
-          GetPage(name: "/sell", page: () => SellScreen()),
           GetPage(name: "/signIn", page: () => SignInScreen()),
           GetPage(name: "/signUp", page: () => SignUpScreen()),
           GetPage(name: "/form", page: () => AddProductFormScreen()),
