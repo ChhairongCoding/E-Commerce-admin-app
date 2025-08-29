@@ -46,59 +46,64 @@ class ProductApi {
     required String stock,
     required List<Uint8List> images,
   }) async {
-
+    // Show loading dialog
     Get.dialog(
-        Center(child: CircularProgressIndicator()),
-        barrierDismissible: false,
-      );
-    final url = Uri.parse('$baseUrl/products');
-    final request = http.MultipartRequest('POST', url);
-    final token = tokenService.getToken();
+      Center(child: CircularProgressIndicator()),
+      barrierDismissible: false,
+    );
 
-    request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Accept'] = 'application/json';
-
-    request.fields['brand'] = brandId;
-    request.fields['categoryId'] = categoryId;
-    request.fields['name'] = productName;
-    request.fields['description'] = description;
-    request.fields['price'] = price;
-    request.fields['stock'] = stock;
-
-    for (int i = 0; i < images.length; i++) {
-      request.files.add(
-        http.MultipartFile.fromBytes(
-          'images',
-          images[i],
-          filename: 'image_$i.jpg',
-          // contentType: MediaType('image', 'jpeg'),
-        ),
-      );
-    }
     try {
-      
+      final url = Uri.parse('$baseUrl/products');
+      final request = http.MultipartRequest('POST', url);
+      final token = tokenService.getToken();
+
+      request.headers['Authorization'] = 'Bearer $token';
+      request.headers['Accept'] = 'application/json';
+
+      request.fields['brand'] = brandId;
+      request.fields['categoryId'] = categoryId;
+      request.fields['name'] = productName;
+      request.fields['description'] = description;
+      request.fields['price'] = price;
+      request.fields['stock'] = stock;
+
+      for (int i = 0; i < images.length; i++) {
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'images',
+            images[i],
+            filename: 'image_$i.jpg',
+          ),
+        );
+      }
+
       final response = await request.send();
       final res = await http.Response.fromStream(response);
+
+      // Close the loading dialog
+      Get.back();
+
       if (res.statusCode == 200 || res.statusCode == 201) {
         developer.log('✅ Product created');
         Get.snackbar('Add product', "Add Product is successfully!");
-         Get.find<MainProductController>().toggleSwitch(0);
+        Get.find<MainProductController>().toggleSwitch(0);
       } else {
         developer.log('❌ Failed: ${res.body}');
+        Get.snackbar('Error', 'Failed to add product: ${res.body}');
       }
     } catch (e) {
+      // Close the loading dialog if an exception occurs
+      Get.back();
       developer.log('❌ Error uploading product: $e');
+      Get.snackbar('Error', 'Error uploading product: $e');
     }
   }
 
   Future<void> deleteProduct(String id) async {
     try {
-      Get.dialog(
-        Center(child: CircularProgressIndicator()),
-        barrierDismissible: false,
-      );
       final token = tokenService.getToken();
       var url = Uri.parse("$baseUrl/products/$id");
+
       final res = await http.delete(
         url,
         headers: {
@@ -106,24 +111,43 @@ class ProductApi {
           "Authorization": "Bearer $token",
         },
       );
-      Get.back();
 
-      if (res.statusCode == 201) {
-        developer.log("Product delete successfully!");
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        developer.log("✅ Product deleted successfully!");
         Get.snackbar(
           "Success!",
-          "Update product successfully!",
+          "Product deleted successfully!",
           snackPosition: SnackPosition.TOP,
           backgroundColor: Color(0xff012B43),
           colorText: Colors.white,
-          duration: Duration(seconds: 10),
+          duration: Duration(seconds: 5),
         );
         Get.find<MainProductController>().toggleSwitch(0);
       } else {
-        developer.log("Product delete error: ${res.statusCode}");
+        developer.log("❌ Product delete error: ${res.statusCode}");
+        Get.snackbar(
+          "Error",
+          "Failed to delete product: ${res.statusCode}",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: Duration(seconds: 5),
+        );
       }
     } catch (e) {
-      developer.log("error product deleted : $e");
+      developer.log("❌ Error deleting product: $e");
+      Get.snackbar(
+        "Error",
+        "Error deleting product",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+      );
+    } finally {
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
     }
   }
 

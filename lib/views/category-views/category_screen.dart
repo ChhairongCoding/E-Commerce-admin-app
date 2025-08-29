@@ -85,61 +85,68 @@ class CategoryScreen extends StatelessWidget {
                 if (categoryController.isLoading.value) {
                   return Center(child: CircularProgressIndicator());
                 }
+                
 
-                return DataTable(
-                  columnSpacing: 140,
-                  columns: headers
-                      .map(
-                        (header) => DataColumn(
-                          label: Text(
-                            header,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    DataTable(
+                      
+                      columnSpacing: 150,
+                      columns: headers
+                          .map(
+                            (header) => DataColumn(
+                              label: Text(
+                                header,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                  rows: List.generate(categories.length, (rowIndex) {
-                    final category = categories[rowIndex];
-
-                    return DataRow(
-                      cells: [
-                        DataCell(Text("ID ${rowIndex + 1}")),
-                        DataCell(Text(category.name ?? 'N/A')),
-                        DataCell(Text(category.productCount.toString())),
-                        DataCell(
-                          Text(
-                            category.isActive == true ? 'Active' : 'Inactive',
-                          ),
-                        ),
-                        DataCell(
-                          Row(
-                            spacing: 8,
-                            children: [
-                              ElevatedButton.icon(
-                                onPressed: () => {
-                                  categoryController.onEditCategoryTap(
-                                    category.id!,
+                          )
+                          .toList(),
+                      rows: List.generate(categories.length, (rowIndex) {
+                        final category = categories[rowIndex];
+                    
+                        return DataRow(
+                          cells: [
+                            DataCell(Text("ID ${rowIndex + 1}")),
+                            DataCell(Text(category.name ?? 'N/A')),
+                            DataCell(Text(category.productCount.toString())),
+                            DataCell(
+                              Text(
+                                category.isActive == true ? 'Active' : 'Inactive',
+                              ),
+                            ),
+                            DataCell(
+                              Row(
+                                spacing: 8,
+                                children: [
+                                  ElevatedButton.icon(
+                                    onPressed: () => {
+                                      categoryController.onEditCategoryTap(
+                                        category.id!,
+                                      ),
+                                    },
+                                    label: Icon(HugeIcons.strokeRoundedEdit01),
                                   ),
-                                },
-                                label: Icon(HugeIcons.strokeRoundedEdit01),
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      categoryController.removeCategory(
+                                        category.id.toString(),
+                                      );
+                                    },
+                                    label: Icon(HugeIcons.strokeRoundedDelete01),
+                                  ),
+                                ],
                               ),
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  categoryController.removeCategory(
-                                    category.id.toString(),
-                                  );
-                                },
-                                label: Icon(HugeIcons.strokeRoundedDelete01),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
+                            ),
+                          ],
+                        );
+                      }),
+                    ),
+                  ],
                 );
               }),
             ),
